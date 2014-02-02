@@ -1,23 +1,36 @@
 ;; +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ;; An Introduction to ClojureScript for Light Table users
+;; Light TableユーザーのためのClojureScript紹介
 ;; +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 ;; Basics
+;; 始めに
 ;; ============================================================================
 
 ;; To begin, open the command pane (type Control-SPACE), Add Connection, select
 ;; Light Table UI. Once connected you can evaluate all the forms in this file
 ;; by placing the cursor after the form and typing Command-ENTER.
 
+;; 始る前、Command Paneを(Contol-SPACEで)開いて、Add Connectionを入力して撰んで、
+;; 開いてくるリストからLight Table UIを選択してください。接続できたら、このファイルの
+;; 中のステートメントをカーサー持っていって、Command-Enterで評価出来ます。
+
 ;; IMPORTANT: You must evaluate the very first form, the namespace
 ;; definition.
+
+;; 注意：一番始めのnamespaceステートメントを評価しなければならない。
 
 ;; Declaring a namespaces
 ;; ----------------------------------------------------------------------------
 
+;; Namespaceの宣言
+;; ----------------------------------------------------------------------------
+
 ;; ClojureScript supports modularity via namespaces. They allow you to group
 ;; logical definitions together.
+
+;; ClojureScriptのモジュラリティがnamespace(ネームスペーす)で提供しています。
 
 (ns lt-cljs-tutorial
   (:require [clojure.string :as string]))
@@ -26,9 +39,14 @@
 ;; the current one. Here we are requiring `clojure.string` and giving it an
 ;; alias. We could write the following:
 
+;; 他のnamespaceからの機能を現在のnamespaceにインポートするには、:requireを使います。
+;; 上記のように`clojure.string`をrequireして、stringと言うエイリアスを付ける事が出来ます。
+
 (clojure.string/blank? "")
 
 ;; But that's really verbose compared to:
+
+;; そして、上のような直接、ちょっと冗長な使い方が下記のように利用できるようになります。
 
 (string/blank? "")
 
@@ -36,25 +54,42 @@
 ;; Comments
 ;; ----------------------------------------------------------------------------
 
+;; コメント
+;; ----------------------------------------------------------------------------
+
 ;; There are three ways to create comments in ClojureScript. The first way is
 ;; by preceding a line with a semi-colon, just like the lines you are reading
 ;; now.
+
+;; ClojureScriptでは、コメントを作るには3つの方法があります。まず一つ目は、今読んでいる
+;; 文書のように、ラインの頭にセミコロン「;」を付ける事で出来ます。
 
 ;; The second way is by preceding a form with `#_`. This causes ClojureScript
 ;; to skip the evaluation of only the form immediately following, without
 ;; affecting the evaluation of the surrounding forms.
 
+;; 2つ目の方法は、ステイトメントのあたまに「#_」を付けます。そうしますと、そのClojureScript
+;; がそのあと直後のステイトメントだけの評価を飛ばします。周りのステイトメントの評価には、
+;; 影響がありません。
+
 ;; Try to reveal the secret message below:
 
-(str "The secret word is " #_(string/reverse "tpircSerujolC"))
+;; 下記の秘密のメッセージを解けます？
+
+(str "The secret word is " (string/reverse "tpircSerujolC"))
 
 ;; Finally, you can also create a comment using the `comment` macro. One common
 ;; technique is to use the `comment` macro to include code to be evaluated in a
 ;; REPL, but which you do not normally want to be included in the compiled
 ;; source.
 
+;; そして、最後のコメントを作る方法は`comment`のマクロを利用する事です。よくあるパターンの一つは、
+;; REPLで使いたいのみのコードを`comment`マクロで巻く事により、コンパイルしたコードに含めない。
+
 ;; For example, try placing your cursor after the last `)` below and type
 ;; Command-ENTER:
+
+;; 例えば、下記のステイトメントの最後の「)」にカーソルを持ってきて、Command-ENTERで評価してみましょう。
 
 (comment
 
@@ -67,14 +102,25 @@
 ;; you can include code samples or quick tests in-line with the rest of
 ;; your code.
 
+;; Commentマクロによって、ステイトメントの結果が「nil」となります。今度は、真ん中の
+;; ステイトメントを選択してCommand-ENTERをやってみてください。このように、サンプルや
+;; 単純なテストを他のコードの間入れろ事が出来ます。
 
 ;; Definitions
+;; ----------------------------------------------------------------------------
+
+;; 定義
 ;; ----------------------------------------------------------------------------
 
 ;; Once you have a namespace, you can start creating top level definitions in
 ;; that namespace.
 
+;; そして、namespaceが出来たら、namespaceの中のトップレベル定義を作る事が出来ます。
+
 ;; You can define a top level with `def`.
+
+;; トップレベルを`def`で作れます。
+
 
 (def x 1)
 
@@ -82,15 +128,21 @@ x
 
 ;; You can also refer to top level definitions by fully qualifying them.
 
+;; トップレベル定義はnamespaceの名前をつかって、直接アクセス出来ます。
+
 lt-cljs-tutorial/x
 
 ;; This means top levels can never be shadowed by locals and function
 ;; parameters.
 
+;; これによって、トップレベルの関数はローカル関数やファンクションでかぶる事がないです。
+
 (let [x 2]
   lt-cljs-tutorial/x)
 
 ;; One way to define a function is like this.
+
+;; ファンクションを定義する方法の一つ：
 
 (def y (fn [] 1))
 
@@ -98,6 +150,8 @@ lt-cljs-tutorial/x
 
 ;; Defining functions in ClojureScript is common enough that `defn` sugar is
 ;; provided and idiomatic.
+
+;; これはよくある事ので、`defn`と言うシュガーがある上、それを使うのが慣用的です。
 
 (defn z [] 1)
 
@@ -107,26 +161,42 @@ lt-cljs-tutorial/x
 ;; Literal data types
 ;; ----------------------------------------------------------------------------
 
+;; データタイプのリテラル
+;; ----------------------------------------------------------------------------
+
 ;; ClojureScript comes out of the box with the usual useful data literals.
 
+;; ClojureScriptが便利なデータリテラルをたくさん含まれています。
+
 ;; Booleans
+
+;; ブーリアン
 
 (def a-boolean true)
 
 ;; Strings
 
+;; ストリング
+
 (def a-string "Hello!")
 
 ;; Regular Expressions
+
+;; レギュラーエクスプレション
 
 (def a-regexp #"\d{3}-?\d{3}-?\d{4}")
 
 ;; Numbers
 
+;; 数字
+
 (def a-number 1)
 
 
 ;; Function literals
+;; ----------------------------------------------------------------------------
+
+;; ファンクションのリテラル
 ;; ----------------------------------------------------------------------------
 
 ;; ClojureScript also supports a shorthand function literal which is useful
