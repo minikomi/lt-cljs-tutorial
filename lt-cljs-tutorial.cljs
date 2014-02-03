@@ -333,20 +333,28 @@ js/requestAnimationFrame
 ;; like arrays - they support efficient random access, efficient update
 ;; and efficient addition to the end.
 
+;; 配列の代わりに、ClojureScriptのプログラマーは永続的なベクトルを使います。配列のように、
+;; ランダムのアクセスや、アップデートと終わりにエレメントを足すことを効率的できます。
 
 
 (def a-vector [1 2 3 4 5])
 
 ;; We can get the length of a vector in constant time via `count`.
 
+;; ベクトールの長さをコンスタントタイムで調べられます。
+
 (count a-vector)
 
 ;; We can add an element to the end.
+
+;; そして、最後にエレメントを足せます。
 
 (def another-vector (conj a-vector 6))
 
 ;; Note this does not mutate the array! `a-vector` will be left
 ;; unchanged.
+
+;; これがベクトールを突然変異しないことに注目！`a-vector`に変化がない。
 
 a-vector
 
@@ -358,8 +366,16 @@ another-vector
 ;; vector efficiently shares the `a-vector` structure. In this way, you
 ;; get the benefits of immutability without paying in performance.
 
+;; Hallelujah!ClojureScriptのマジックはこういう事から生まれてきます。`another-vector`
+;; が、`a-vector`に対して全く新しいベクトルに見えます。でも、そうでもないです。内部では、
+;; 新しいベクトルが`a-vector` の構造をシェアしています。このように、不変性の効果が
+;; パフォーマンスに悪影響なく使えます。
+
 ;; We can access any element in a vector with `nth`. The following
 ;; will return the second element.
+
+;; ベクトルのエレメントどれでも`nth`でアクセスできる。下記が、2番目のエレメントを
+;; 返してくれます。
 
 (nth a-vector 1)
 
@@ -367,10 +383,14 @@ another-vector
 
 ;; Or with `get`...
 
+;; そして、`get`...
+
 (get a-vector 0)
 
 ;; ...which allows you to return an alternate value when the index is
 ;; out-of bounds.
+
+;; .. 範囲外のインデクスを使った場合、別の結果を返せる事ができます。
 
 (get a-vector -1 :out-of-bounds)
 (get a-vector (count a-vector) :out-of-bounds)
@@ -379,12 +399,18 @@ another-vector
 ;; a very useful property for associative data structures to have as
 ;; we'll see below with sets.
 
+;; 予想外な事で、ベクトルがファンクションの用に使えます。実は、これが連想データ構造
+;; にとってとっても便利な特徴です。下記、セットを使ったときに明らかになると思います。
+
 (a-vector 1)
 
 (["foo" "bar" "baz"] 1)
 
 
 ;; Maps
+;; ----------------------------------------------------------------------------
+
+;; マップ
 ;; ----------------------------------------------------------------------------
 
 ;; Along with vectors, maps are the most common data type in ClojureScript.
