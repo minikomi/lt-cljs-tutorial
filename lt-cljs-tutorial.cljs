@@ -76,7 +76,7 @@
 
 ;; 下記の秘密のメッセージを解けます？
 
-(str "The secret word is " (string/reverse "tpircSerujolC"))
+(str "The secret word is " #_(string/reverse "tpircSerujolC"))
 
 ;; Finally, you can also create a comment using the `comment` macro. One common
 ;; technique is to use the `comment` macro to include code to be evaluated in a
@@ -319,12 +319,21 @@ js/requestAnimationFrame
 ;; programs with ClojureScript data types. They have many advantages over
 ;; JavaScript data types - they present a uniform API and they are immutable.
 
+;; ClojureScriptのデータタイプ
+;; ============================================================================
+
+
 ;; Vectors
+;; ----------------------------------------------------------------------------
+
+;; ベクトル
 ;; ----------------------------------------------------------------------------
 
 ;; Instead of arrays, ClojureScript programmers use persistent vectors. They are
 ;; like arrays - they support efficient random access, efficient update
 ;; and efficient addition to the end.
+
+
 
 (def a-vector [1 2 3 4 5])
 
