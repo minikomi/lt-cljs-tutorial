@@ -228,7 +228,7 @@ lt-cljs-tutorial/x
 ;; ----------------------------------------------------------------------------
 
 ;; You can construct a JavaScript array with the `array` function.
-;; JavaScriptのアレイを`array`ファンクションを利用して作れます。
+;; JavaScriptの配列を`array`ファンクションを利用して作れます。
 
 (def an-array (array 1 2 3))
 
