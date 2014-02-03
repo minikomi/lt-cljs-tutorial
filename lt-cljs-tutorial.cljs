@@ -202,13 +202,21 @@ lt-cljs-tutorial/x
 ;; ClojureScript also supports a shorthand function literal which is useful
 ;; You can use the % and %N placeholders to represent function arguments.
 
+;; ClojureScriptは便利なファンクションのリテラルの速記があります。ファンクションの引数の代わりに、
+;; 「%」から「%N」のプレイスホルダーを使えます。
+
 ;; You should not abuse the function literal notation as it degrades readability
 ;; outside of simple cases. It is nice for simple functional cases such as
 ;; the following. You could map over a ClojureScript vector like this:
 
+;; ファンクションリテラルの悪用を気をつけましょう。シンプルのケース意外使いすぎちゃうと、
+;; とても読みにくくなります。でも下記のようなシンプルのケースのためには、便利です。
+;; ClojureScriptのベクトルを下記のようにmapかけることができます。
+
 (map (fn [n] (* n 2)) [1 2 3 4 5])
 
 ;; Or you can save typing a few characters like this:
+;; そして、ちょっと入力の手間を省くことができます。
 
 (map #(* % 2) [1 2 3 4 5])
 
@@ -216,28 +224,45 @@ lt-cljs-tutorial/x
 ;; JavaScript data type literals
 ;; ----------------------------------------------------------------------------
 
+;; JavaScriptのデータタイプのリテラル
+;; ----------------------------------------------------------------------------
+
 ;; You can construct a JavaScript array with the `array` function.
+;; JavaScriptのアレイを`array`ファンクションを利用して作れます。
 
 (def an-array (array 1 2 3))
 
 ;; But ClojureScript also supports JavaScript data literals via the `#js`
 ;; reader literal.
 
+;; それとも、ClojureScriptが`#js`と書くリーダーリテラルでもJavaScriptのデータリレラルを
+;; サポートしています。
+
 (def another-array #js [1 2 3])
 
 ;; Similarly, you can create simple JavaScript objects with `js-obj`.
 
+;; 同じように、JavaScriptのオブジェクトを`js-obj`で作れます。
+
 (def an-object (js-obj "foo" "bar"))
 
 ;; But again you can save a few characters with `#js`.
+
+;; ちょっと手間を省いて、`#js`を使った場合。
 
 (def another-object #js {"foo" "bar"})
 
 ;; It's important to note that `#js` is shallow, the contents of `#js` will be
 ;; ClojureScript data unless preceded by `#js`.
 
+;; 注意しないと行けないのは、`#js`の効力が浅いです。`#js` の中のステイトメントが`#js` を
+;; 付けないと、ClojureScriptになります。
+
 ;; This is a mutable JavaScript object with an immutable ClojureScript vector
 ;; inside.
+
+;; 下記では、ミュータブルなJavaScriptオブジェクトの中にイミュータブルClojureScriptベクトル
+;; が入っています。
 
 (def shallow #js {"foo" [1 2 3]})
 
@@ -245,10 +270,17 @@ lt-cljs-tutorial/x
 ;; Constructing a type
 ;; ----------------------------------------------------------------------------
 
+;; タイプの構築
+;; ----------------------------------------------------------------------------
+
 ;; Of course some JavaScript data types you will want to create with a
 ;; constructor.
 
+;; もちろん、コンストラクターで作りたいJavaScriptのデータタイプも出てくるでしょう。
+
 ;; (js/Date.) is equivalent to new Date().
+
+;; (js/Date.)が Date()の同等となります。
 
 (def a-date (js/Date.))
 
@@ -256,11 +288,17 @@ lt-cljs-tutorial/x
 
 ;; Note the above returns an `#inst` data literal.
 
+;; 上記が、`#inst`のデータリテラルを戻すのを注目してください。
+
 (def another-regexp (js/RegExp. "\\d{3}-?\\d{3}-?\\d{4}"))
 
 ;; Handy
 
+;; 便利ですね！
+
 ;; NOTE: js/Foo is how you refer to global JavaScript entities of any kind.
+
+;; 注意： どのグロバルのJavaScriptを、js/Fooで参照します。
 
 js/Date
 
@@ -270,6 +308,8 @@ js/requestAnimationFrame
 
 ;; If you're curious about other JavaScript interop jump to the bottom of this
 ;; tutorial.
+
+;; ほかのJavaScriptとの相互運用に興味があるなら、このドキュメントの真下に飛んでください。
 
 
 ;; ClojureScript data types
