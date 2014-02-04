@@ -417,6 +417,11 @@ another-vector
 ;; Map usage is analogous to the usage of Object in JavaScript, but
 ;; ClojureScript maps are immutable and considerably more flexible.
 
+;; ClojureScriptではベクトルの次は、マップが一番よく見かけるデータタイプです。
+;; ClojureScriptのマップはJavaScriptのObjectと同質的な役割しています。
+;; でも、ClojureScriptのマップはイミュータブルですし、かなり柔軟で使えます。
+
+
 ;; Let's define a simple map. Note `:foo` is a ClojureScript keyword.
 ;; ClojureScript programmers prefer to use keywords for keys instead
 ;; of strings. They are more distinguishable from the rest of the
@@ -424,25 +429,40 @@ another-vector
 ;; function position (i.e. first position after the open parens), as
 ;; we'll see in a moment.
 
+;; まず、単純なマップを作りましょう。ちなみに、`:foo`がClojureScriptのキーワードです。
+;; マップにキーには、ストリングよりキーワードを使う方がClojureScriptプログラマーが好きです。
+;; ほかのコード区別しやすいし、ストリングよりは効率的ですし、そして、下記で説明するように
+;; ファンクションのポジション(ブラケットのすぐ後)にでも使えますです。
+
 (def a-map {:foo "bar" :baz "woz"})
 
 ;; We can get the number of key-value pairs in constant time.
+
+;; キーバルユーペアを一定時間で調べられます。
 
 (count a-map)
 
 ;; We can access a particular value for a key with `get`.
 
+;; そして、気になるキーのバリューを`get`でアクセスできる。
+
 (get a-map :foo)
 
 ;; and return an alternative value when the key is not present
+
+;; そして、存在してないキーの代わりになるバリューも返せます。
 
 (get a-map :bar :not-found)
 
 ;; We can add a new key-value pair with `assoc`.
 
+;; 新しいキーバリューペアを`assoc`で足せます。
+
 (def another-map (assoc a-map :noz "goz"))
 
 ;; Again a-map is unchanged! Same magic as before for vectors
+
+;; またa-mapは変わってない！ベクトルで見た、同じマジックです。
 
 a-map
 
@@ -450,34 +470,51 @@ another-map
 
 ;; We can remove a key-value pair with `dissoc`.
 
+;; `dissoc`でキーバリューペアを削除できます。
+
 (dissoc a-map :foo)
 
 ;; Again a-map is unchanged!
 
+;; またまた、a-mapが変わってないです。
+
 a-map
 
 ;; Like vectors, maps can act like functions.
+
+;; ベクトルのと同じように、マップがファンクション野代わりに使えます。
 
 (a-map :foo)
 
 ;; However ClojureScript keywords themselves can act like functions and the
 ;; following is more idiomatic.
 
+;; ただ、ClojureScriptでは、キーワードもファンクション野用に使えます。こっちの方が慣用的です。
+
 (:foo a-map)
 
 ;; We can check if a map contains a key, with `contains?`.
+
+;; マップであるキーが存在しているかどうかを、`contains?`で確認できます。
 
 (contains? a-map :foo)
 
 ;; We can get all the keys in a map with `keys`.
 
+;; マップのすべてのキーを`keys`で調べられます。
+
 (keys a-map)
 
 ;; And all of the values with `vals`.
 
+;; そして、すべてのバリューを`vals`で。
+
 (vals a-map)
 
 ;; We can put a lot of things in a map, even other maps
+
+;; マップには、いろんな種類のバリューをインサートできる。マップでも。
+
 (def a-nested-map {:customer-id 1e6
                    :preferences {:nickname "Bob"
                                  :avatar "http://en.gravatar.com/userimage/0/0.jpg"}
@@ -485,15 +522,21 @@ a-map
 
 ;; and navigate its keys to get the nested value you're interested in
 
+;; そして、キーを操縦して、入れ子の気になるバリュー調べたり、
+
 (get-in a-nested-map [:preferences :nickname])
 (get-in a-nested-map [:services :alerts :daily])
 
 ;; or just find a top level key-value pair (i.e. MapEntry) by key
 
+;; トップレベルのキーバリューペアを探せます。
+
 (find a-nested-map :customer-id)
 (find a-nested-map :services)
 
 ;; There are many cool ways to create maps.
+
+;; マップを作るには、下記のようないろんな方法があります。
 
 (zipmap [:foo :bar :baz] [1 2 3])
 
@@ -505,6 +548,8 @@ a-map
 
 ;; Unlike JavaScript objects, ClojureScript maps support complex keys.
 
+;; JavaScriptのオブジェクトと違って、ClojurScriptのマップは複雑なキーを利用できます。
+
 (def complex-map {[1 2] :one-two [3 4] :three-four})
 
 (get complex-map [3 4])
@@ -513,12 +558,19 @@ a-map
 ;; Keyword digression
 ;; ----------------------------------------------------------------------------
 
+;; キーワード余談
+;; ----------------------------------------------------------------------------
+
 ;; Let's take a moment to digress about keywords as they are so ubiquitous
 ;; in ClojureScript code.
 
+;; ClojureScriptでは、キーワードが偏在するので、いったん話を脱線して、調べましょう。
+
 (identity :foo)
 
-;; If you add an additional preceding colon you'll get namespaced keyword.
+;; If you add an additional preceding colon you'll get a namespaced keyword.
+
+;; もう一つのコロンを付け足すと、ネームスペース化されたキーワードを作れます。
 
 (identity ::foo)
 
@@ -526,9 +578,14 @@ a-map
 ;; fear of namespace clashes without the tedium of manual namespacing them
 ;; in your source.
 
+;; これは、何の訳にたつ？退屈なネームスパースをマニュアル付け足す作業を避けて、ネームスペースの中のデータを
+;; 絶対にかぶらない用にデータをコレックションに付け足せる事ができます。
+
 (identity {:user/foo ::foo})
 
 ;; Namespaced keywords are essential to Light Table's modularity.
+
+;; ネームスペース化されたケーワードが、Light Tableのモジュール化には、大切な仕様です。
 
 
 ;; Sets
