@@ -591,15 +591,24 @@ a-map
 ;; Sets
 ;; ----------------------------------------------------------------------------
 
+;; セット
+;; ----------------------------------------------------------------------------
+
 ;; ClojureScript also supports sets.
+
+;; ClojureScriptはセットも対応しています。
 
 (def a-set #{:cat :dog :bird})
 
 ;; `:cat` is already in `a-set`, so it will be unchanged.
 
+;; `:cat`がすでに`a-set`に含まれているので代わりがないです。
+
 (conj a-set :cat)
 
 ;; But `:zebra` isn't.
+
+;; しかし、`:zebra`はそうでもない。
 
 (conj a-set :zebra)
 
@@ -607,16 +616,28 @@ a-map
 ;; an item to a collection. This is some of the uniformity we alluded to
 ;; earlier.
 
+;; 気づきましたか？`conj`が「ポリモーフィック」な、コレクションに何かを足すために使うファンクションです。
+;; これが前少し言及した均一性です。
+
 ;; `contains?` works on sets just like it does on maps.
+
+;; `contains?` も、マップと同じように、セットにも使えます。
 
 (contains? a-set :cat)
 
 ;; Like vectors and maps, sets can also act as functions. If the argument
 ;; exists in the set it will be returned, otherwise the set will return nil.
 
+;; また、ベクトリとマップと同じく、セットがファンクションの用には使えます。引数がセットにあれば、
+;; そのままかえってきます。そうではないなら、`nil`が戻ります。
+
 (#{:cat :dog :bird} :cat)
 
+(#{:cat :dog :bird} :banana)
+
 ;; This is powerful when combined with conditionals.
+
+;; if文と組み合わせると、パワフルな仕組みになります。
 
 (defn check [x]
   (if (#{:cat :dog :bird} x)
@@ -630,33 +651,53 @@ a-map
 ;; Lists
 ;; ----------------------------------------------------------------------------
 
+;; リスト
+;; ----------------------------------------------------------------------------
+
 ;; A less common ClojureScript data structure is lists. This may be
 ;; surprising as ClojureScript is a Lisp, but maps, vectors and sets
 ;; are the 'go-to' data structures for most applications. Still, lists are sometimes
 ;; useful—especially when dealing with code (i.e. code is data).
+
+;; リストはClojureScriptでの、もう少し珍しいデータ構造です。ClojureScriptがLispである事によって、
+;; これがちょっとびっくりな事かもしれないですが、マップ、ベクトルとセットが手をよくつけるデータ構造です。
+;; しかし、リストが便利なときもあります。特に、コードを対応している時に(コードをデータとして)使います。
 
 (def a-list '(:foo :bar :baz))
 
 ;; `conj` is "polymorphic" on lists as well, and it's smart enough to
 ;; add the new item in the most efficient way on the basis of the
 ;; collection type.
+
+;; ポリモーフィックファンクション`conj`がリストにも対応しています。そして、コレクションおタイプによって、
+;; 一番効率的な足し方をしてくれます。賢いですね！
+
 (conj a-list :front)
 
 ;; and lists are immutable as well
+
+;; リストもイミュータブルです。
 
 a-list
 
 ;; You can get the first element of a list
 
+;; リストの頭にあるエレメントを読めます。
+
 (first a-list)
 
 ;; or the tail of a list
+
+;; それとも、しっぽ。
 
 (rest a-list)
 
 ;; which allows you to easly verify how ClojureScript shares data
 ;; structure instead of inefficiently copying data for supporting
 ;; immutability.
+
+;; そして、これを利用して、ClojureScriptのイミュータビリティーが、
+;; 非効率的にデータのコピーではなくて、データの構造を共有でできているのを簡単に確認できます。
 
 (def another-list (conj a-list :front))
 
@@ -669,30 +710,47 @@ a-list
 ;; `identical?` checks whether two things are represented by the same
 ;; thing in memory.
 
+;; `identical?`が、二つの物がメモリー上で同じ表現しているかどうかを確認します。
 
 ;; Equality
+;; ============================================================================
+
+;; 平等
 ;; ============================================================================
 
 ;; ClojureScript has a much simpler notion of equality than what is present
 ;; in JavaScript. In ClojureScript equality is always deep equality.
 
+;; ClojureScriptでは、なにが平等しているという概念がJavaScriptより単純です。
+;; ClojureScriptでは、深い平等が標準です。
+
 (= {:foo "bar" :baz "woz"} {:foo "bar" :baz "woz"})
 
 ;; Maps are not ordered.
 
+;; マップには、順序付けられてない。
+
 (= {:foo "bar" :baz "woz"} {:baz "woz" :foo "bar"})
 
 ;; For sequential collections, equality just works.
+
+;; 逐次的なコレックションにでも平等が普通に動きます。
 
 (= [1 2 3] '(1 2 3))
 
 ;; Again, it is possible to check whether two things are represented
 ;; by the same thing in memory with `identical?`.
 
+;; そして、二つの物がメモリー上で同じ表現しているかどうかを確認するには、`identical?`があります。
+
 (def my-vec [1 2 3])
 (def your-vec [1 2 3])
+(def my-vec2 my-vec)
+
 
 (identical? my-vec your-vec)
+
+(identical? my-vec my-vec2)
 
 
 ;; Control
@@ -703,10 +761,20 @@ a-list
 ;; however truth-y and false-y values are not the same as in
 ;; JavaScript so it's worth reviewing.
 
+;; コントロール
+;; ============================================================================
+
+;; 使えるプログラムを作るには、コントロールフローを表現しなければならない。
+;; ClojureScriptがコントロール構造はありますが、truthyとfalsyのバリューがJavaScript
+;; と違いがありますので、見直しましょう。
+
+
 ;; if
 ;; ----------------------------------------------------------------------------
 
 ;; 0 is not a false-y value.
+
+;; 0がfalse-yではない。
 
 (if 0
   "Zero is not false-y"
@@ -714,11 +782,15 @@ a-list
 
 ;; Nor is the empty string.
 
+;; 空のストリングでも、
+
 (if ""
   "An empty string is not false-y"
   "Yuck")
 
 ;; the empty vector
+
+;; 空のベクトルでも、
 
 (if []
   "An empty vector is not false-y"
@@ -726,11 +798,15 @@ a-list
 
 ;; the empty list
 
+;; 空のリストでも、
+
 (if ()
   "An empty list is not false-y"
   "Yuck")
 
 ;; the empty map
+
+;; 空のマップでも、
 
 (if {}
   "An empty map is not false-y"
@@ -738,11 +814,15 @@ a-list
 
 ;; the empty set
 
+;; 空のセットでも、
+
 (if #{}
   "An empty set is not false-y"
   "Yuck")
 
 ;; and even the empty regexp
+
+;; 空のレギュラーエクスプレションでもfalse-yではない！
 
 (if #""
   "An empty regexp is not false-y"
@@ -751,12 +831,18 @@ a-list
 ;; The only false-y values in ClojureScript are `nil` and `false`. `undefined`
 ;; is not really a valid ClojureScript value and is generally coerced to `nil`.
 
+;; ClojureScriptではfalse-yのバリューが、`nil` と `false`の二つだけです。
+;; `undefined`がClojureScriptでは有効なではないので、普段は`nil`に強制されています。
+
 
 ;; cond
 ;; ----------------------------------------------------------------------------
 
 ;; Nesting `if` tends to be noisy and hard to read so ClojureScript
 ;; provides a `cond` macro to deal with this.
+
+;; たくさんな`if`が重ねてくるととてもうるさくなりますので、Clojurescriptが
+;; このために`cond`のマクロを提供しています。
 
 (cond
   nil "Not going to return this"
@@ -775,12 +861,24 @@ a-list
 ;; style if a reasonable functional solution via `map`/`filter`/`reduce` or a list
 ;; comprehension is possible.
 
+;; ClojureScriptの最もプリミティブなループ構造が`loop`/`recur`です。
+;; `let`見たいに、`loop` では、バインディングを確立できます。そして初期バリューも設定できます。
+;; また、`let`と同じく、ステートメントのシークエンスがボディーとなります。しっぽのポジションだけで、
+;; 次の反復野バインディングを設定している`recur`ステートメントを書く事ができます。
+;; しかし、`map`/`filter`/`reduce`やリストの内包表記(List Comprehensionなどを使った、
+;; ファンクショナルな解決方法があるとき、`loop`/`recur` を使うのが非慣用と思われています。
+
+
 ;; While you might write this in JavaScript:
+
+;; この風に書くJavaScriptを:
 ;;
 ;; var ret = [];
 ;; for(var i = 0; i < 10; i++) ret.push(i)
 ;;
 ;; In ClojureScript you would write `loop`/`recur` like so:
+
+;; ClojureScriptではこの風に`loop`/`recur`でかきます。
 
 (loop [i 0 ret []]
   (if (< i 10)
@@ -790,10 +888,16 @@ a-list
 ;; Again avoid `loop`/`recur` unless you really need it. The loop above would
 ;; be better expressed as the following:
 
+;; しかし、本当に必要ではないなら、`loop`/`recur`を使用しないように書いた方がいいです。
+;; 上記のループが下記の用に書いた方が正しいです。
+
 (into [] (range 10))
 
 
 ;; Moar functions
+;; ============================================================================
+
+;; functionsをもっと！
 ;; ============================================================================
 
 ;; Functions are the essence of any significant ClojureScript program, so
