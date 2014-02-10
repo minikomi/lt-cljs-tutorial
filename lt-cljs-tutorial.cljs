@@ -966,7 +966,8 @@ a-list
 ;; extension, but instead of limiting dispatch to type, dispatch is controlled
 ;; by whatever value the dispatch fn originally supplied to `defmulti` returns.
 
-;;
+;; よくポリモーフィズムが必要となって、そしてパーフォーマンスが大事ではない時、
+;; マルチメソッドを利用する事が十分です。
 
 ;; Here is the simplest multimethod you can write. It simply dispatches on
 ;; the value received.
