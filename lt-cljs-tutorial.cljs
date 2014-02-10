@@ -904,7 +904,12 @@ a-list
 ;; we will dive into features that are unique to ClojureScript functions that
 ;; might be unfamiliar.
 
+;; ClojureScriptのプログラムの本質はファンクションであるので、ClojureScriptのファンクションで
+;; もしかしての見知らぬ部分をちょっと深く探りましょう。
+
 ;; Here is a simple function that takes two arguments and adds them.
+
+;; 下記のファンクションが、二つの引数うを受け取って、足します。
 
 (defn foo1 [a b]
   (+ a b))
@@ -912,6 +917,8 @@ a-list
 (foo1 1 2)
 
 ;; Functions can have multiple arities.
+
+;; ファンクションは複数のアリティを持つ事で着ます。
 
 (defn foo2
   ([a b] (+ a b))
@@ -922,6 +929,8 @@ a-list
 
 ;; Multiple arities can be used to supply default values.
 
+;; 複数のアリティを利用する事で、デフォルトのバリューを給与できます。
+
 (defn defaults
   ([x] (defaults x :default))
   ([x y] [x y]))
@@ -931,6 +940,8 @@ a-list
 
 ;; Functions support rest arguments.
 
+;; 残りの複数を受け取る「レスト複数」も、作れます。
+
 (defn foo3 [a b & d]
   [a b d])
 
@@ -939,16 +950,23 @@ a-list
 
 ;; You can apply functions.
 
+;; ファンクションをapplyで付ける事ができます。
+
 (apply + [1 2 3 4 5])
 
 
 ;; multimethods
 ;; ----------------------------------------------------------------------------
 
+;; マルチーメソッド
+;; ----------------------------------------------------------------------------
+
 ;; Often when you need some polymorphism, and performance isn't an issue,
 ;; multimethods will suffice. Multimethods are functions that allow open
 ;; extension, but instead of limiting dispatch to type, dispatch is controlled
 ;; by whatever value the dispatch fn originally supplied to `defmulti` returns.
+
+;;
 
 ;; Here is the simplest multimethod you can write. It simply dispatches on
 ;; the value received.
