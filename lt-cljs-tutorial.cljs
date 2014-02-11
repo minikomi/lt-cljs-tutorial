@@ -968,7 +968,7 @@ a-list
 
 ;; よくポリモーフィズムが必要となって、そしてパーフォーマンスが大事ではない時、
 ;; マルチメソッドを利用する事が十分です。
-
+;;
 ;; Here is the simplest multimethod you can write. It simply dispatches on
 ;; the value received.
 
