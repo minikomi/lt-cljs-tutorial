@@ -569,7 +569,6 @@ a-map
 (identity :foo)
 
 ;; If you add an additional preceding colon you'll get a namespaced keyword.
-
 ;; もう一つのコロンを付け足すと、ネームスペース化されたキーワードを作れます。
 
 (identity ::foo)
@@ -993,11 +992,14 @@ a-list
 (simple-multi "foo")
 
 ;; However we haven't defined a case for "bar"
-;;
 ;; まだ、"bar"の場合を定義してないのに：
 
-(simple-multi "bar")
-
+; (Highlight and evaluate the `simple-multi` form below)
+; (下記の`simple-multi`をハイライトして評価して見てください。
+;
+(comment
+  (simple-multi "bar")
+  )
 
 ;; Here is a function that takes a list. It dispatches on the first element
 ;; of the list!
@@ -1298,8 +1300,11 @@ some-x
 (js/Error. "Oops")
 
 ;; You can throw an error like this.
+;; (Highlight and evaluate the `throw` form below)
 
-(throw (js/Error. "Oops"))
+(comment
+  (throw (js/Error. "Oops"))
+  )
 
 ;; You can catch an error like this.
 
@@ -1315,6 +1320,17 @@ some-x
   (throw (js/Error. "Oops"))
   (catch :default e
     e))
+
+;; Catches are optional. You can also use multiple forms to handle different types of errors.
+
+(try
+  (throw (js/Error. "Oops"))
+  (catch js/Error e
+    e)
+  (catch Error e
+    e)
+  (finally
+     "Cleanup here"))
 
 
 ;; Mutation
@@ -1480,10 +1496,6 @@ x
   MyProtocol
   (awesome [this] (vector this "Totally awesome!")))
 
-;; As said while learning about `let` special form, when we're not
-;; interested in the value of an argument it's idiomatic to use the
-;; underscore as a placeholder like above.
-
 (awesome "Is this awesome?")
 
 
@@ -1493,6 +1505,10 @@ x
 ;; Sometimes you want to extend several types to a protocol at once. You can
 ;; use extend-protocol for this. extend-protocol simply desugars into multiple
 ;; extend-type forms.
+
+;; As said while learning about `let` special form, when we're not
+;; interested in the value of an argument it's idiomatic to use the
+;; underscore as a placeholder like above.
 
 (extend-protocol MyProtocol
   js/Date
@@ -1712,7 +1728,7 @@ x
 (assoc-in (contact "Bob" "Smith" "bob.smith@acme.com")
           [:person :first] "Robert")
 
-;; It you need to use the previous value of a nested field for calculating the
+;; If you need to use the previous value of a nested field for calculating the
 ;; new one, you can use 'update-in', like with maps.
 
 (update-in (contact "Bob" "Smith" "bob.smith@acme.com")
@@ -1768,7 +1784,7 @@ x
 
 (make-array 32)
 
-;; You can access an element of a array with `aget`.
+;; You can access an element of an array with `aget`.
 
 (aget #js ["one" "two" "three"] 1)
 
