@@ -662,7 +662,7 @@ a-list
 (simple-multi "foo")
 
 ;; However we haven't defined a case for "bar"
-; (Highlight and evaluate the `simple-multi` form below)
+;; (Highlight and evaluate the `simple-multi` form below)
 (comment
   (simple-multi "bar")
   )
