@@ -967,14 +967,20 @@ a-list
 ;; by whatever value the dispatch fn originally supplied to `defmulti` returns.
 
 ;; よくポリモーフィズムが必要となって、そしてパーフォーマンスが大事ではない時、
-;; マルチメソッドを利用する事が十分です。
+;; マルチメソッドを利用する事が十分です。マルチメソッドは、自由に拡張できるファンクション、
+;; しかし、タイプでディスパッチする事に限っているではなくて、ディスパッチが
+;; `defmulti`に最初に渡されたファンクションの返すバリューによってコントロールされています。
 ;;
 ;; Here is the simplest multimethod you can write. It simply dispatches on
 ;; the value received.
+;;
+;; 例えば、下記が最も単純なマルチメソッドです。受け取るバリューだけでディスパッチするだけです。
 
 (defmulti simple-multi identity)
 
 ;; Now we can define methods for particular values.
+;;
+;; そしたら、特定したバリューのメソッドを定義できます。
 
 (defmethod simple-multi 1
   [value] "Dispatched on 1")
@@ -987,12 +993,17 @@ a-list
 (simple-multi "foo")
 
 ;; However we haven't defined a case for "bar"
+;;
+;; まだ、"bar"の場合を定義してないのに：
 
 (simple-multi "bar")
 
 
 ;; Here is a function that takes a list. It dispatches on the first element
 ;; of the list!
+;;
+;; そして、下記はリストを受け取って、リストの最初のエレメントでディスパッチする
+;; ファンクションです。
 
 (defmulti parse (fn [[f & r :as form]] f))
 
@@ -1008,9 +1019,15 @@ a-list
 
 ;; Scoping
 ;; ============================================================================
+;;
+;; スコープ
+;; ============================================================================
 
 ;; Unlike JavaScript, there is no hoisting in ClojureScript. ClojureScript
 ;; has lexical scoping.
+;;
+;; ClojureScriptはJavaScriptと違って、変数の巻き上げはありません。
+;; ClojureScriptのスコープは、静的スコープです。
 
 (def some-x 1)
 
@@ -1021,10 +1038,17 @@ some-x
 
 ;; Closures
 ;; ----------------------------------------------------------------------------
+;;
+;; クロージャ
+;; ----------------------------------------------------------------------------
 
 ;; Could a language with such a name miss closures? Surely it can't. You
 ;; may be already familiar with them in JavaScript, even if it's a
 ;; variable scoped language.
+;;
+;; この名前を与えた言語は「クロージャ」がないと思いますか？もちろん、あり得ないです。
+;; バリアブルスコープの言語であるJavaScriptからでも、見た事あるでしょうか。
+
 
 (let [a 1e3]
   (defn foo []
@@ -1033,10 +1057,14 @@ some-x
     (+ (foo) a)))
 
 ;; Above we defined `foo` and `bar` functions inside the scope of a
-;; `let` form and they both know about `a` (i.e. they close over `a`)
+;; `let` form and they both know about `a` (i.e. they close over `a`).
 ;; Note, even if defined inside a `let`, `foo` and `bar` are available
 ;; in the outer scope. This is because all `def` expressions are always
 ;; top level. See the footnote at the end of this section.
+
+;; 上記で、`foo`と`bar`と言うファンクションを`let`形式の中で定義しました。どちらも、
+;; `a`の存在を意識しています。(とはいえ、`a`を含んでいる)。`let`の中で定義されていても、
+;;  `foo`と`bar`が外のスコープからでもアクセスできます。詳しくは、下記の脚注を確認してください。
 
 
 (foo)
