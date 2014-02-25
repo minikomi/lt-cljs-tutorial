@@ -1635,9 +1635,9 @@ x
 ;; coerced into sequences because they implement ISeqable. You can use `get`
 ;; on vectors and maps because they implement ILookup.
 
-;; 以前、均一性から生まれてくるパワーがコレクションがプロトコルでできているのが原因です。
-;; コレクションがシークエンスに変換させれるのが、ISeqableを実装しているだからです。
-;; ベクトルとマップに`get`を使えるのは、両帆がILookupを実装しているだからです。
+;j; 以前、均一性から生まれてくるパワーがコレクションがプロトコルでできているのが原因です。
+;j; コレクションがシークエンスに変換させれるのが、ISeqableを実装しているだからです。
+;j; ベクトルとマップに`get`を使えるのは、両帆がILookupを実装しているだからです。
 
 (get {:foo "bar"} :foo)
 (get [:cat :bird :dog] 1)
@@ -1645,16 +1645,23 @@ x
 ;; Map destructing actually desugars into `get` calls. That means if you extend
 ;; your type to ILookup it will also support map destructuring!
 
-;; マップの分配束縛が実は、`get`のコールにデシュガーします。とすると、自分のタイプがILookupを
-;; 定義していると、
+;j; マップの分配束縛が実は、`get`のコールにデシュガーします。という事で、自分のタイプをILookupに
+;j; エクステンドするとそのタイプも分配束縛をサッポートします！
 
 
 ;; extend-type
 ;; ----------------------------------------------------------------------------
 
+;j; extend-type
+;j; ----------------------------------------------------------------------------
+
 ;; ClojureScript supports custom extension to types that avoid many of the
 ;; pitfalls that you encounter in other languages. For example imagine we have
 ;; some awesome polymorphic functionality in mind.
+
+;j; ClojureScriptのタイプのエクステンションの仕方が他の言語に比べて、
+;j; よくおこる問題を防いでいます。例えば、すばらしいポリモーフィックな機能を
+;j; 考えているだとすると..
 
 (defprotocol MyProtocol (awesome [this]))
 
@@ -1663,8 +1670,13 @@ x
 ;; ClojureScript to dispatch the right function implementation on the
 ;; basis of the type of the value of `this`
 
+;j; ..一番目の引数を`this`と呼ぶのが、慣用的です。これが、プロトコルがこの引数のタイプによって、
+;j; 正しいファンクションにディスパッチをしていると言う事のリマインダーになります。
+
 ;; Now imagine we want JavaScript strings to participate. We can do this
 ;; simply.
+
+;j; JavaScriptのストリングが参加して欲しいと思ったら、すごく簡単にできちゃう。
 
 (extend-type string
   MyProtocol
@@ -1676,13 +1688,23 @@ x
 ;; extend-protocol
 ;; ----------------------------------------------------------------------------
 
+;j; extend-protocol
+;j; ----------------------------------------------------------------------------
+
 ;; Sometimes you want to extend several types to a protocol at once. You can
-;; use extend-protocol for this. extend-protocol simply desugars into multiple
-;; extend-type forms.
+;; use extend-protocol for this. `extend-protocol` simply desugars into multiple
+;; `extend-type` forms.
+
+;j; たまに、一つのプロ所を同時に複数なタイプにエキステンドしたいときはあります。この場合、
+;j; `extend-protocol`は使えます。`extend-protocol`は、ただ単に複数な`extend-type`に
+;j; ディシュガーします。
 
 ;; As said while learning about `let` special form, when we're not
 ;; interested in the value of an argument it's idiomatic to use the
 ;; underscore as a placeholder like above.
+
+;j; `let`のフォームを習ったときと同じく、興味のない引数は、アンダースコアのプレイスホルダー
+;j; を使うのが慣用的です。
 
 (extend-protocol MyProtocol
   js/Date
@@ -1697,15 +1719,26 @@ x
 ;; reify
 ;; ----------------------------------------------------------------------------
 
+;j; reify
+;j; ----------------------------------------------------------------------------
+
 ;; Sometimes it's useful to make an anonymous type which implements some
 ;; various protocols.
+
+;j; たまに、プロトコルを実装している無名なタイプを作るのが便利です。
 
 ;; For example say we want a JavaScript object to support ILookup. Now we don't
 ;; want to blindly `extend-type object`, that would pollute the behavior of plain
 ;; JavaScript objects for everyone.
 
+;j; 例えば、JavascriptのオブジェクトがILookupを対応するようにしたい。`extend-type object`
+;j; は使いたくない - 全体的にJavaScriptのオブジェクトのビヘイビアに影響がある。
+
 ;; Instead we can provide a helper function that takes an object and returns
 ;; something that provides this functionality.
+
+;j; 代わりには、オブジェクトを受け取って、期待している機能を提供しているものを返してもらう
+;j; ヘルパーファンクションを作れます。
 
 (defn ->lookup [obj]
   (reify
@@ -1718,11 +1751,16 @@ x
           (aget obj k)
           not-found)))))
 
+
 ;; We can then selectively make JavaScript objects work with `get`.
+
+;j; そしたら、選択的に`get`を提供しているJavascriptオブジェクトを作る事ができます。
 
 (get (->lookup #js {"foo" "bar"}) :foo)
 
 ;; But this also means we get destructuring on JavaScript objects.
+
+;j; これによって、JavaScriptのオブジェクトを分配束縛できるようになります。
 
 (def some-object #js {"foo" "bar" "baz" "woz"})
 
@@ -1733,32 +1771,52 @@ x
 ;; specify
 ;; ----------------------------------------------------------------------------
 
+;j; specify
+;j; ----------------------------------------------------------------------------
+
 ;; Light Table ships with a older version of ClojureScript and does not yet
 ;; support specify
+
+;j; Light TableのClojureScriptのバージョンがちょっと古いため、まだ`specify`は使えないです。
 
 
 ;; Macros
 ;; ============================================================================
 
+;j; マクロ
+;j; ============================================================================
 
 ;; Types & Records
 ;; ============================================================================
 
+;j; タイプとレコード
+;j; ============================================================================
+
 ;; deftype
 ;; ----------------------------------------------------------------------------
 
+;j; deftype
+;j; ----------------------------------------------------------------------------
+
 ;; Sometimes a map will simply not suffice, in these cases you will want to
 ;; make your own custom type.
+
+;j; マップが足りない時はあります。その場合、カスタムタイプを作るのがいいです。
 
 (deftype Foo [a b])
 
 ;; It's idiomatic to use CamelCase to name a `deftype`. You can instantiate a
 ;; deftype instance using the same constructor pattern we've already discussed.
 
+;j; `deftype`の名前を付けるには、キャメルケースを使うのが慣用的です。
+;j; 新しい`deftype`のインスタンスを生成前と同じコンストラクターを使えます。
+
 (Foo. 1 2)
 
 ;; You can access properties of a deftype instance using property access
 ;; syntax.
+
+;j; そして、`deftype`のプロペティーをいつも通り下記のアクセスのシンタクスを使えます。
 
 (.-a (Foo. 1 2))
 
@@ -1766,6 +1824,10 @@ x
 ;; argument to any deftype or defrecord method is the instance itself.
 ;; The dash in `-count` has no special meaning. It's just a convention for
 ;; the core ClojureScript protocols. You need not adopt it.
+
+;j; 下記のように、プロトコルのメソッドを`deftype`にも付けり事ができます。`deftype`と`defrecord`の
+;j; 一番目の引数がそのインスタンス実体です。`-count`のハイフェンに特別な意味はないです。ClojureScript
+;j; のコアプロトコルの慣用です。付けなくても、大丈夫です。
 
 (deftype Foo [a b]
   ICounted
@@ -1775,6 +1837,8 @@ x
 
 ;; Sometimes it's useful to implement methods directly on the deftype.
 
+;j; `deftype`の中でもメソッドを実装する事も、たまに役に立ちます。
+
 (deftype Foo [a b]
   Object
   (toString [this] (str a ", " b)))
@@ -1783,6 +1847,9 @@ x
 
 ;; deftype fields are immutable unless specified. The following will not compile.
 ;; (To prove it to yourself, highlight  the `deftype` form below.)
+
+;j; 特定しなければ、`deftype`のフィルドがイミュータブルです。下記は、コンパイルエラーになります。
+;j; (確認するなら、下記の`deftype`を選択して、Cmd-Enterで実行してみてください。)
 
 (comment
 
@@ -1794,6 +1861,8 @@ x
 
 ;; The following will compile.
 
+;; 下記のコンパイルは通ります。
+
 (deftype Foo [a ^:mutable b]
   Object
   (setB [this val] (set! b val)))
@@ -1802,19 +1871,31 @@ x
 ;; defrecord
 ;; ----------------------------------------------------------------------------
 
+;j; defrecord
+;j; ----------------------------------------------------------------------------
+
 ;; `deftype` doesn't provide much out of the box. Often what you want to do is
 ;; have a domain object that acts more or less like a map. This is what
 ;; `defrecord` is for.
 
+;j; `deftype`をそのまま使うと、そこまで機能はないです。よく、マップに近いドメインオブジェクトを
+;j; 作りたいです。そのために、`defrecord`はある。
+
 ;; Like `deftype`, it's idiomatic to use CamelCase to name a `defrecord`.
+
+;j; `deftype`と同じく、`defrecord`を作る時、キャメルケースを使います。
 
 (defrecord Person [first last])
 
 ;; You can construct an instance in the usual way.
 
+;j; そして、インスタンスを作るのも、もちろん、いつも通り。
+
 (Person. "Bob" "Smith")
 
 ;; Or you can use the provided constructors.
+
+;j; それか、ついてくるコンストラクターを使っても作れます。
 
 (->Person "Bob" "Smith")
 
@@ -1824,10 +1905,15 @@ x
 ;; which returns the created instance of a defrecord/deftype. It's idiomatic to use
 ;; dash-case for factories names.
 
+;j; 作り上げた`defrecord`のインスタンスを返すファクトリーファンクションを定義するのが、慣用的、そして、推奨されています。
+;j; ファクトリーファンクションの名前は、ハイフェンを使った名前が正しいです。
+
 (defn person [first last]
   (->Person first last))
 
 ;; records work like maps
+
+;; レコードはマップのように使えます。
 
 (seq (person "Bob" "Smith"))
 
@@ -1839,13 +1925,19 @@ x
 
 ;; both deftype and defrecord are open to dynamic extensions (i.e. open class)
 
-(keys (assoc (person "Bob" "Smith") :age 18))
+;; `defrecord`も、`deftype`も動的に拡張する事ができるようになっています。
 
+(keys (assoc (person "Bob" "Smith") :age 18))
 
 ;; Records & Protocols
 ;; ----------------------------------------------------------------------------
 
+;j; レコードとプロトコル
+;j; ----------------------------------------------------------------------------
+
 ;; You can extend a defrecord to satisfy a protocol as you do with deftype.
+
+;j; `defrecord`を、`deftype`と同じようにプロトコルを満たすように拡張する事ができます。
 
 (extend-type Person
   MyProtocol
@@ -1858,6 +1950,8 @@ x
 
 ;; Or you can extend a protocol on a defrecord.
 
+;j; プロトコルでも、拡張できます。
+
 (extend-protocol MyProtocol
   Person
   (awesome [this]
@@ -1869,13 +1963,22 @@ x
 
 ;; If you need a more sophisticated form of polymorphism consider multimethods.
 
+;j; もっと洗練されたポリモーフィズムが必要であれば、マルチーメソッドを使う事を検討してください。
+
 ;; If you mix types/records with protocols you are modeling your problem with an
 ;; object oriented approach, which is sometimes useful.
+
+;j; プロトコルとレコードをタイプと組み合わせている場合、オブジェクトオリエンテッドな方法を優先してる
+;j; 事になります。このパターンがフィットする時もあります。
 
 ;; Note ClojureScript does not offer a direct form of inheritance. Instead,
 ;; reuse/extension by composition is encouraged. It's best to avoid
 ;; deftype/defrecord and model your problem with plain maps. You can easily
 ;; switch to records later on down the line.
+
+;j; ClojureScriptでは、継承を直接できない。その代わりに、合成で拡張する事を勧めています。
+;j; できれば、`deftype`/`defrecord`を使わずに、マップのみで問題のモデルを作るのが一番です。
+;j; そして、必要になったら、後でレコードに切り替えるのが難しくないです。
 
 (defrecord Contact [person email])
 
@@ -1883,12 +1986,17 @@ x
 ;; instances of the new Contact record type by internally calling the factory
 ;; function for the Person record type.
 
+;j; 必要されてなくても、新しい`contact`のレコードを作り出す、中で`person`の
+;j; ファクトリーファンクションを利用しているファクトリーファンクションを作りましょう。
+
 (defn contact [first last email]
   (->Contact (person first last) email))
 
 (contact "Bob" "Smith" "bob.smith@acme.com")
 
 ;; And extend the protocol on defrecord as well.
+
+;; そして、`defrecord`とともに、プロトコルも拡張しましょう。
 
 (extend-protocol MyProtocol
   Contact
@@ -1899,17 +2007,24 @@ x
 
 ;; To change the value of a nested key you use 'assoc-in', like with maps.
 
+;j; 含まれているキーのバリューを変えるのを、マップと同じく、`assoc-in`を使えます。
+
 (assoc-in (contact "Bob" "Smith" "bob.smith@acme.com")
           [:person :first] "Robert")
 
 ;; If you need to use the previous value of a nested field for calculating the
 ;; new one, you can use 'update-in', like with maps.
 
-(update-in (contact "Bob" "Smith" "bob.smith@acme.com")
-           [:person :first] #(string/replace %1 #"Bob" %2) "Robert")
+;j; 新しいバリューが現在のバリューによって計算したい場合、`update-in`を使えます。
+
+(-> (update-in (contact "Bob" "Smith" "bob.smith@acme.com")
+           [:person :first] #(string/replace %1 #"Bob" %2) "Robert") :person :first)
 
 ;; As said, the main difference with the majority of OO languages is that your
 ;; instances of deftypes/defrecords are immutable.
+
+;j; 他のオブジェクト指向言語とちがって、`deftype`と`defrecord`がイミュータブル。
+
 
 (def bob (contact "Bob" "Smith" "bob.smith@acme.com"))
 
@@ -1921,31 +2036,46 @@ x
 ;; JavaScript Interop
 ;; ============================================================================
 
+;j; JavaScriptとの相互運用
+;j; ============================================================================
+
 ;; Property Access
 ;; ----------------------------------------------------------------------------
+
+;j; プロペティーのアクセス
+;j; ----------------------------------------------------------------------------
 
 (def a-date (js/Date.))
 
 ;; You can access properties with the `.-` property access syntax.
 
-(.-getSeconds a-date)
+;j; プロペティーは`.-`でアクセス出来ます。
 
+(.-getSeconds a-date)
 
 ;; Method Calls
 ;; ----------------------------------------------------------------------------
 
+;j; メソッドのコール
+;j; ----------------------------------------------------------------------------
+
 ;; Methods can be invoked with the `.` syntax.
+
+;j; メソッドは`.`で呼び出せます。
 
 (.getSeconds a-date)
 
 ;; The above desugars into the following.
 
+;; 上記は、下記にデシュガーします。
+
 (. a-date (getSeconds))
 
 ;; For example, you can write a `console.log` call like so.
 
-(. js/console (log "Interop!"))
+;; 例えば、`console.log`野コールは下記のようにかけます。
 
+(. js/console (log "Interop!"))
 
 ;; Primitive Array Operations
 ;; ----------------------------------------------------------------------------
@@ -1970,6 +2100,6 @@ x
 
 (def yucky-stuff #js [1 2 3])
 
-(aset yucky-stuff 1 4)
+(aset yucky-stuff 1 5)
 
 yucky-stuff
