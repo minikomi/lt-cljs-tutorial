@@ -203,15 +203,15 @@ lt-cljs-tutorial/x
 ;; You can use the % and %N placeholders to represent function arguments.
 
 ;j; ClojureScriptで関数リテラルを作るとき、便利な簡略記法があります。
-;j; そして、その中では、ファンクションの引数の代わりに、「%」から「%N」のプレイスホルダーで引数を参照します。
+;j; そして、その中では、関数の引数の代わりに、「%」から「%N」のプレイスホルダーで引数を参照します。
 
 ;; You should not abuse the function literal notation as it degrades readability
 ;; outside of simple cases. It is nice for simple functional cases such as
 ;; the following. You could map over a ClojureScript vector like this:
 
-;j; ファンクションリテラルの使い過ぎに気をつけましょう。シンプルのケース意外使いすぎちゃうと、
-;j; とても読みにくくなります。でも下記のようなシンプルのケースのためには、便利です。
-;j; ClojureScriptのベクトルにmapを適用するとき、普通は以下のようにしますが:
+;j; 簡略記法の使い過ぎると読みづらくなるので気をつけましょう。
+;j; でも下記のようなシンプルのケースのためには、便利です。
+;j; ClojureScriptのベクタにmapを適用するとき、普通は以下のようにしますが:
 
 (map (fn [n] (* n 2)) [1 2 3 4 5])
 
@@ -228,7 +228,7 @@ lt-cljs-tutorial/x
 ;j; ----------------------------------------------------------------------------
 
 ;j; You can construct a JavaScript array with the `array` function.
-;j; JavaScriptの配列を`array`ファンクションを利用して作れます。
+;j; JavaScriptの配列を`array`関数を利用して作れます。
 
 (def an-array (array 1 2 3))
 
@@ -280,7 +280,7 @@ lt-cljs-tutorial/x
 
 ;; (js/Date.) is equivalent to new Date().
 
-;; (js/Date.)が Date()の同等となります。
+;; (js/Date.)がnew Date()の同等となります。
 
 (def a-date (js/Date.))
 
@@ -298,7 +298,7 @@ lt-cljs-tutorial/x
 
 ;; NOTE: js/Foo is how you refer to global JavaScript entities of any kind.
 
-;j; 注意： どのグローバルのJavaScriptを、js/Fooで参照します。
+;j; 注意： グローバルのJavaScript変数は、js/Fooのように参照します。
 
 js/Date
 
@@ -330,14 +330,14 @@ js/requestAnimationFrame
 ;; Vectors
 ;; ----------------------------------------------------------------------------
 
-;j; ベクトル
+;j; ベクタ
 ;j; ----------------------------------------------------------------------------
 
 ;; Instead of arrays, ClojureScript programmers use persistent vectors. They are
 ;; like arrays - they support efficient random access, efficient update
 ;; and efficient addition to the end.
 
-;j; 配列の代わりに、ClojureScriptのプログラマーは永続的なベクトルを使います。配列のように、
+;j; 配列の代わりに、ClojureScriptのプログラマーは永続的なベクタを使います。配列のように、
 ;j; ランダムアクセス、アップデートや、末尾への挿入を効率的できます。
 
 
@@ -345,20 +345,20 @@ js/requestAnimationFrame
 
 ;; We can get the length of a vector in constant time via `count`.
 
-;j; ベクトルの長さは低数時間で調べられます。
+;j; ベクタの長さは定数時間で調べられます。
 
 (count a-vector)
 
 ;; We can add an element to the end.
 
-;j; そして、ベクトルの末尾に要素を足せます。
+;j; そして、ベクタの末尾に要素を足せます。
 
 (def another-vector (conj a-vector 6))
 
 ;; Note this does not mutate the array! `a-vector` will be left
 ;; unchanged.
 
-;j; これがベクトルを破壊しないことに注目！`a-vector`に変化がない。
+;j; これがベクタを破壊しないことに注目！`a-vector`に変化がない。
 
 a-vector
 
@@ -371,14 +371,14 @@ another-vector
 ;; get the benefits of immutability without paying in performance.
 
 ;j; ハレルヤ! ClojureScriptのマジックはこういう事から生まれてきます。`another-vector`
-;j; が、`a-vector`に対して全く新しいベクトルに見えます。でも、そうでもないです。内部では、
-;j; 新しいベクトルが`a-vector` の構造をシェアしています。このように、不変性の効果が
-;j; パフォーマンスへの悪影響を無効にします。
+;j; が、`a-vector`に対して全く新しいベクタに見えます。でも、そうでもないです。内部では、
+;j; 新しいベクタが`a-vector` の構造をシェアしています。このように、不変性の効果が
+;j; パフォーマンスへの悪影響を劇的に軽減します。
 
 ;; We can access any element in a vector with `nth`. The following
 ;; will return the second element.
 
-;j; ベクトルの要素にはどれでも`nth`でアクセスできる。下記の例では、2番目の要素を
+;j; ベクタの要素にはどれでも`nth`でアクセスできる。下記の例では、2番目の要素を
 ;j; 返してくれます。
 
 (nth a-vector 1)
@@ -403,8 +403,8 @@ another-vector
 ;; a very useful property for associative data structures to have as
 ;; we'll see below with sets.
 
-;j; 驚く事に、ベクトルを関数のように使えます。これは連想データ構造
-;j; にとってとっても便利な特徴です。集合を使ったときに明らかになると思います。
+;j; 驚く事に、ベクタを関数のように使えます。これは連想データ構造
+;j; にとって、とっても便利な特徴です。集合を使ったときに明らかになると思います。
 
 (a-vector 1)
 
@@ -421,7 +421,7 @@ another-vector
 ;; Map usage is analogous to the usage of Object in JavaScript, but
 ;; ClojureScript maps are immutable and considerably more flexible.
 
-;j; ClojureScriptでは、ベクトルの次に、マップを一番よく見かけますす。
+;j; ClojureScriptでは、ベクタの次に、マップを一番よく見かけますす。
 ;j; ClojureScriptのマップはJavaScriptのObjectと同質的な役割しています。
 ;j; でも、ClojureScriptのマップはイミュータブルですし、かなり柔軟に使えます。
 
@@ -466,7 +466,7 @@ another-vector
 
 ;; Again a-map is unchanged! Same magic as before for vectors
 
-;j; またa-mapは変わってない！ベクトルで見たのと同じマジックです。
+;j; またa-mapは変わってない！ベクタで見たのと同じマジックです。
 
 a-map
 
@@ -486,7 +486,7 @@ a-map
 
 ;; Like vectors, maps can act like functions.
 
-;j; ベクトルと同じように、マップが関数代わりに使えます。
+;j; ベクタと同じように、マップが関数代わりに使えます。
 
 (a-map :foo)
 
@@ -631,7 +631,7 @@ a-map
 ;; Like vectors and maps, sets can also act as functions. If the argument
 ;; exists in the set it will be returned, otherwise the set will return nil.
 
-;j; また、ベクトルとマップと同じく、セットを関数のように使えます。引数が集合にあれば、
+;j; また、ベクタとマップと同じく、セットを関数のように使えます。引数が集合にあれば、
 ;j; そのままかえってきます。そうではないなら、`nil`が戻ります。
 
 (#{:cat :dog :bird} :cat)
@@ -663,7 +663,7 @@ a-map
 ;; useful—especially when dealing with code (i.e. code is data).
 
 ;j; リストはClojureScriptでの、もう少し珍しいデータ構造です。ClojureScriptがLispである事を考えると、
-;j; これはちょっとびっくりな事かもしれないですが、マップ、ベクトルとセットが手をよくつけるデータ構造です。
+;j; これはちょっとびっくりな事かもしれないですが、マップ、ベクタとセットが手をよくつけるデータ構造です。
 ;j; しかし、リストが便利なときもあります。特に、Clojureのコードはリストなので、コードをいじる時に便利です。
 
 (def a-list '(:foo :bar :baz))
@@ -672,7 +672,7 @@ a-map
 ;; add the new item in the most efficient way on the basis of the
 ;; collection type.
 
-;j; ポリモーフィックファンクション`conj`はリストにも対応しています。そして、コレクションのタイプによって、
+;j; ポリモーフィック関数`conj`はリストにも対応しています。そして、コレクションのタイプによって、
 ;j; 一番効率的な足し方をしてくれます。賢いですね！
 
 (conj a-list :front)
@@ -791,7 +791,7 @@ a-list
 
 ;; the empty vector
 
-;j; 空のベクトルも、
+;j; 空のベクタも、
 
 (if []
   "An empty vector is not false-y"
@@ -970,7 +970,7 @@ a-list
 ;j; ポリモーフィズムが必要となって、そしてパーフォーマンスが大事ではない時は、
 ;j; マルチメソッドで十分です。マルチメソッドは、自由に拡張できる関数です。
 ;j; しかし、型でディスパッチする事に限っているではなくて、ディスパッチが
-;j; `defmulti`に最初に渡されたファンクションの返す値によってコントロールされています。
+;j; `defmulti`に最初に渡された関数の返す値によってコントロールされています。
 
 ;; Here is the simplest multimethod you can write. It simply dispatches on
 ;; the value received.
@@ -1089,7 +1089,7 @@ some-x
 ;; That's why some people say that closures are the poor man's objects.
 ;; They encapsulate the information as well.
 
-;j; 「クロージャは貧乏人のオブジェクト」というフレーズはこういう、情報を含まれること
+;j; 「クロージャは貧乏人のオブジェクト」というフレーズはこういう、情報を含むこと
 ;j; から生まれたフレーズでしょう。
 
 ;; But in ClojureScript, functions' parameters and let bindings' locals
@@ -1124,7 +1124,7 @@ some-x
 ;; This is almost always incorrect. If you need to write a local function just
 ;; do it with a let binding.
 
-;j; これは、ほとんどの場合間違えです。ローカルのファンクションを作りたい時は`let`のバインティングを
+;j; これは、ほとんどの場合間違えです。ローカルの関数を作りたい時は`let`のバインティングを
 ;j; 使うのがいいでしょう。
 
 (defn outer-fn []
@@ -1331,7 +1331,7 @@ some-x
 ;; provide the expected behavior. The following demonstrates that you can
 ;; uniformly iterate over all the ClojureScript collections!
 
-;j; 多くのClojureScriptのファンクションが、期待される動作を定義するため、渡された関数に`seq`を呼びます。
+;j; 多くのClojureScriptの関数が、期待される動作を定義するため、渡された関数に`seq`を呼びます。
 ;j; 下記の例が、ClojureScriptのコレクションどれでも均一に反復でくると言う事を、証明します。
 
 
@@ -1640,7 +1640,7 @@ x
 
 ;j; 均一性から生まれてくるパワーの大半は、コレクションがプロトコルでできているのが原因です。
 ;j; コレクションをシーケンスに変換できるのは、ISeqableを実装しているからです。
-;j; ベクトルとマップに`get`を使えるのは、両方ともILookupを実装しているからです。
+;j; ベクタとマップに`get`を使えるのは、両方ともILookupを実装しているからです。
 
 (get {:foo "bar"} :foo)
 (get [:cat :bird :dog] 1)
@@ -1990,7 +1990,7 @@ x
 ;; function for the Person record type.
 
 ;j; 必須ではなくても、ファクトリー関数を定義するのを忘れないでください。
-;j; 新しい`contact`のレコードを作り出す、中で`person`のファクトリーファンクションを利用しているファクトリーファンクションを作りましょう。
+;j; 新しい`contact`のレコードを作り出す、中で`person`のファクトリー関数を利用しているファクトリー関数を作りましょう。
 
 (defn contact [first last email]
   (->Contact (person first last) email))
