@@ -12,9 +12,9 @@
 ;; Light Table UI. Once connected you can evaluate all the forms in this file
 ;; by placing the cursor after the form and typing Command-ENTER.
 
-;j; 始る前、Command Paneを(Contol-SPACEで)開いて、「Add Connection」を検索して、選択してください。
+;j; 最初に、Command Paneを(Contol-SPACEで)開いて、「Add Connection」を検索して、選択してください。
 ;j; そして、出てくるリストから「Light Table UI」を選択してください。接続できたら、このファイルの中の
-;j; ステートメントをカーサー持ってきて、「Command-Enter」を押すと、評価が出来ます。
+;j; 式にカーソルを持ってきて、「Command-Enter」を押すと、評価が出来ます。
 
 ;; IMPORTANT: You must evaluate the very first form, the namespace
 ;; definition.
@@ -30,7 +30,7 @@
 ;; ClojureScript supports modularity via namespaces. They allow you to group
 ;; logical definitions together.
 
-;j; ClojureScriptのモジュラリティがnamespace(ネームスペーす)で提供しています。
+;j; ClojureScriptはモジュラリティをnamespace(ネームスペース)で提供しています。
 
 (ns lt-cljs-tutorial
   (:require [clojure.string :as string]))
@@ -46,7 +46,7 @@
 
 ;; But that's really verbose compared to:
 
-;j; そして、上記のちょっと冗長ば使い方が下記の書き方になります。
+;j; でも上記の書き方は次の書き方に比べて冗長です。
 
 (string/blank? "")
 
@@ -61,16 +61,15 @@
 ;; by preceding a line with a semi-colon, just like the lines you are reading
 ;; now.
 
-;j; ClojureScriptでは、コメントを作る方法3つあります。まず一つ目は、今読んでいる
-;j; 文書のように、ラインの頭に「;」(セミコロン)を付ける事だけでコメントになります。
+;j; ClojureScriptでは、コメントを作る方法が3つあります。まず一つ目は、今読んでいる
+;j; 文書のように、ラインの頭に「;」(セミコロン)を付ける方法です。
 
 ;; The second way is by preceding a form with `#_`. This causes ClojureScript
 ;; to skip the evaluation of only the form immediately following, without
 ;; affecting the evaluation of the surrounding forms.
 
-;j; 2つ目の方法は、ステイトメントのあたまに「#_」を付ます。そうしますと、ClojureScript
-;j; が付けられたステイトメントの評価を飛ばします。その他、周りのステイトメントの評価には、
-;j; 影響がありません。
+;j; 2つ目の方法は、式の頭に「#_」を付ます。そうすると、ClojureScript
+;j; は付けられた式の評価を飛ばします。周りの式の評価には影響がありません。
 
 ;; Try to reveal the secret message below:
 
@@ -84,12 +83,13 @@
 ;; source.
 
 ;j; 最後のコメントを作る方法は`comment`のマクロを利用する事です。このマクロを使った、ちょっと便利なパターン
-;j; の一つは、REPLで使いたいのみのコードを`comment`マクロで巻いて、コンパイルしたらそのコードは含めません。
+;j; の一つは、REPLで使いたいのみのコードを`comment`マクロで包むものです。
+;j; そうするとコンパイルされたコードから余分なコードを取り除けます。
 
 ;; For example, try placing your cursor after the last `)` below and type
 ;; Command-ENTER:
 
-;j; 例えば、下記のステイトメントの最後の「)」にカーソルを持ってきて、Command-ENTERで評価してみましょう。
+;j; 例えば、下記の式の最後の「)」にカーソルを持ってきて、Command-ENTERで評価してみましょう。
 
 (comment
 
@@ -102,8 +102,8 @@
 ;; you can include code samples or quick tests in-line with the rest of
 ;; your code.
 
-;j; Commentマクロが、ステイトメントの結果を「nil」にします。そして次は、真ん中の
-;j; ステイトメントを選択してCommand-ENTERをやってみてください。
+;j; Commentマクロが、式の結果を「nil」にします。そして次は、真ん中の
+;j; 式を選択してCommand-ENTERをやってみてください。
 ;j; このように、単純なサンプルやテストを他のコードの間に挟む事が出来ます。
 
 ;; Definitions
@@ -128,21 +128,21 @@ x
 
 ;; You can also refer to top level definitions by fully qualifying them.
 
-;j; namespaceの名前をつかって、トップレベルの定義を直接アクセス出来ます。
+;j; namespaceの名前をつかって、トップレベルの定義に直接アクセス出来ます。
 
 lt-cljs-tutorial/x
 
 ;; This means top levels can never be shadowed by locals and function
 ;; parameters.
 
-;j; ネームスペースを利用すると、トップレベルの関数はローカル関数やファンクションでかぶる事がないです。
+;j; ネームスペースを利用すると、トップレベルの関数がローカル関数や引数名にシャドーイングされることがありません。
 
 (let [x 2]
   lt-cljs-tutorial/x)
 
 ;; One way to define a function is like this.
 
-;j; ファンクションを定義する方法の一つ：
+;j; 関数を定義する方法の一つ：
 
 (def y (fn [] 1))
 
@@ -151,7 +151,7 @@ lt-cljs-tutorial/x
 ;; Defining functions in ClojureScript is common enough that `defn` sugar is
 ;; provided and idiomatic.
 
-;j; ファンクションを作るのはよくある事ので、`defn`と言うシュガーがあって、利用するのが慣用的です。
+;j; 関数を作るのはよくある事ので、`defn`と言うシュガーがあって、利用するのが慣用的です。
 
 (defn z [] 1)
 
@@ -166,23 +166,23 @@ lt-cljs-tutorial/x
 
 ;; ClojureScript comes out of the box with the usual useful data literals.
 
-;j; ClojureScriptが便利なデータリテラルをたくさん含まれています。
+;j; ClojureScriptは便利なデータリテラルをたくさん持っています。
 
 ;; Booleans
 
-;j; ブーリアン
+;j; ブーリアン (真偽値)
 
 (def a-boolean true)
 
 ;; Strings
 
-;j; ストリング
+;j; 文字列
 
 (def a-string "Hello!")
 
 ;; Regular Expressions
 
-;j; レギュラー・エクスプレション
+;j; 正規表現
 
 (def a-regexp #"\d{3}-?\d{3}-?\d{4}")
 
@@ -196,27 +196,27 @@ lt-cljs-tutorial/x
 ;; Function literals
 ;; ----------------------------------------------------------------------------
 
-;j; ファンクションリテラル
+;j; 関数リテラル
 ;j; ----------------------------------------------------------------------------
 
 ;; ClojureScript also supports a shorthand function literal which is useful
 ;; You can use the % and %N placeholders to represent function arguments.
 
-;j; ClojureScriptはファンクションリテラルを作るには、便利な速記があります。
-;j; そして、その中、ファンクションの引数の代わりに、「%」から「%N」のプレイスホルダーがあります。
+;j; ClojureScriptで関数リテラルを作るとき、便利な簡略記法があります。
+;j; そして、その中では、ファンクションの引数の代わりに、「%」から「%N」のプレイスホルダーで引数を参照します。
 
 ;; You should not abuse the function literal notation as it degrades readability
 ;; outside of simple cases. It is nice for simple functional cases such as
 ;; the following. You could map over a ClojureScript vector like this:
 
-;j; ファンクションリテラルの悪用を気をつけましょう。シンプルのケース意外使いすぎちゃうと、
+;j; ファンクションリテラルの使い過ぎに気をつけましょう。シンプルのケース意外使いすぎちゃうと、
 ;j; とても読みにくくなります。でも下記のようなシンプルのケースのためには、便利です。
-;j; ClojureScriptのベクトルを下記のようにmapかけることができます。
+;j; ClojureScriptのベクトルにmapを適用するとき、普通は以下のようにしますが:
 
 (map (fn [n] (* n 2)) [1 2 3 4 5])
 
 ;; Or you can save typing a few characters like this:
-;j; そして、ちょっと入力の手間を省くことができます。
+;j; 簡略記法を使うと、ちょっと入力の手間を省くことができます。
 
 (map #(* % 2) [1 2 3 4 5])
 
@@ -235,8 +235,8 @@ lt-cljs-tutorial/x
 ;; But ClojureScript also supports JavaScript data literals via the `#js`
 ;; reader literal.
 
-;j; それとも、ClojureScriptが`#js`と書くリーダーリテラルでもJavaScriptのデータリレラルを
-;j; サポートしています。
+;j; それとも、ClojureScriptで`#js`と書くリーダーリテラルを使うと、JavaScriptのデータリテラルを
+;j; 書く事が出来ます。
 
 (def another-array #js [1 2 3])
 
@@ -255,13 +255,13 @@ lt-cljs-tutorial/x
 ;; It's important to note that `#js` is shallow, the contents of `#js` will be
 ;; ClojureScript data unless preceded by `#js`.
 
-;j; 注意しないと行けないのは、`#js`の効力が浅いです。`#js` の中のステイトメントが`#js` を
+;j; 注意しないといけないのは、`#js`の効力が浅いことです。`#js` の中の式に`#js` を
 ;j; 付けないと、ClojureScriptになります。
 
 ;; This is a mutable JavaScript object with an immutable ClojureScript vector
 ;; inside.
 
-;j; 下記では、ミュータブルなJavaScriptオブジェクトの中にイミュータブルClojureScriptベクトル
+;j; 下記では、ミュータブルなJavaScriptオブジェクトの中にイミュータブルClojureScriptベクタ
 ;j; が入っています。
 
 (def shallow #js {"foo" [1 2 3]})
@@ -298,7 +298,7 @@ lt-cljs-tutorial/x
 
 ;; NOTE: js/Foo is how you refer to global JavaScript entities of any kind.
 
-;j; 注意： どのグロバルのJavaScriptを、js/Fooで参照します。
+;j; 注意： どのグローバルのJavaScriptを、js/Fooで参照します。
 
 js/Date
 
@@ -309,7 +309,7 @@ js/requestAnimationFrame
 ;; If you're curious about other JavaScript interop jump to the bottom of this
 ;; tutorial.
 
-;j; ほかのJavaScriptとの相互運用に興味があるなら、このドキュメントの真下に飛んでください。
+;j; ほかのJavaScriptとのインターオペラビリtィに興味があるなら、このドキュメントの下部に飛んでください。
 
 
 ;; ClojureScript data types
@@ -321,6 +321,10 @@ js/requestAnimationFrame
 
 ;j; ClojureScriptのデータタイプ
 ;j; ============================================================================
+
+;j; 特にそうしない理由がない場合、ClojureScriptプログラムはClojureScriptの
+;j; データ型を使った方がいいです。ClojureScriptのデータ構造はJavaScriptのそれに比べて
+;j; 多くの利点があります。統一されたAPIがあり、イミュータブルです。
 
 
 ;; Vectors
@@ -334,27 +338,27 @@ js/requestAnimationFrame
 ;; and efficient addition to the end.
 
 ;j; 配列の代わりに、ClojureScriptのプログラマーは永続的なベクトルを使います。配列のように、
-;j; ランダムのアクセスや、アップデートと終わりにエレメントを足すことを効率的できます。
+;j; ランダムアクセス、アップデートや、末尾への挿入を効率的できます。
 
 
 (def a-vector [1 2 3 4 5])
 
 ;; We can get the length of a vector in constant time via `count`.
 
-;j; ベクトールの長さをコンスタントタイムで調べられます。
+;j; ベクトルの長さは低数時間で調べられます。
 
 (count a-vector)
 
 ;; We can add an element to the end.
 
-;j; そして、最後にエレメントを足せます。
+;j; そして、ベクトルの末尾に要素を足せます。
 
 (def another-vector (conj a-vector 6))
 
 ;; Note this does not mutate the array! `a-vector` will be left
 ;; unchanged.
 
-;j; これがベクトールを突然変異しないことに注目！`a-vector`に変化がない。
+;j; これがベクトルを破壊しないことに注目！`a-vector`に変化がない。
 
 a-vector
 
@@ -366,15 +370,15 @@ another-vector
 ;; vector efficiently shares the `a-vector` structure. In this way, you
 ;; get the benefits of immutability without paying in performance.
 
-;j; Hallelujah!ClojureScriptのマジックはこういう事から生まれてきます。`another-vector`
+;j; ハレルヤ! ClojureScriptのマジックはこういう事から生まれてきます。`another-vector`
 ;j; が、`a-vector`に対して全く新しいベクトルに見えます。でも、そうでもないです。内部では、
 ;j; 新しいベクトルが`a-vector` の構造をシェアしています。このように、不変性の効果が
-;j; パフォーマンスに悪影響なく使えます。
+;j; パフォーマンスへの悪影響を無効にします。
 
 ;; We can access any element in a vector with `nth`. The following
 ;; will return the second element.
 
-;j; ベクトルのエレメントどれでも`nth`でアクセスできる。下記が、2番目のエレメントを
+;j; ベクトルの要素にはどれでも`nth`でアクセスできる。下記の例では、2番目の要素を
 ;j; 返してくれます。
 
 (nth a-vector 1)
@@ -390,7 +394,7 @@ another-vector
 ;; ...which allows you to return an alternate value when the index is
 ;; out-of bounds.
 
-;; .. 範囲外のインデクスを使った場合、別の結果を返せる事ができます。
+;; .. 範囲外のインデクスを使った場合、別の結果を返させる事ができます。
 
 (get a-vector -1 :out-of-bounds)
 (get a-vector (count a-vector) :out-of-bounds)
@@ -399,8 +403,8 @@ another-vector
 ;; a very useful property for associative data structures to have as
 ;; we'll see below with sets.
 
-;j; 予想外な事で、ベクトルがファンクションの用に使えます。実は、これが連想データ構造
-;j; にとってとっても便利な特徴です。下記、セットを使ったときに明らかになると思います。
+;j; 驚く事に、ベクトルを関数のように使えます。これは連想データ構造
+;j; にとってとっても便利な特徴です。集合を使ったときに明らかになると思います。
 
 (a-vector 1)
 
@@ -417,9 +421,9 @@ another-vector
 ;; Map usage is analogous to the usage of Object in JavaScript, but
 ;; ClojureScript maps are immutable and considerably more flexible.
 
-;j; ClojureScriptではベクトルの次は、マップが一番よく見かけるデータタイプです。
+;j; ClojureScriptでは、ベクトルの次に、マップを一番よく見かけますす。
 ;j; ClojureScriptのマップはJavaScriptのObjectと同質的な役割しています。
-;j; でも、ClojureScriptのマップはイミュータブルですし、かなり柔軟で使えます。
+;j; でも、ClojureScriptのマップはイミュータブルですし、かなり柔軟に使えます。
 
 
 ;; Let's define a simple map. Note `:foo` is a ClojureScript keyword.
@@ -430,39 +434,39 @@ another-vector
 ;; we'll see in a moment.
 
 ;j; まず、単純なマップを作りましょう。ちなみに、`:foo`がClojureScriptのキーワードです。
-;j; マップにキーには、ストリングよりキーワードを使う方がClojureScriptプログラマーが好きです。
+;j; マップのキーには、ストリングよりキーワードを使う方がClojureScriptプログラマーが好きです。
 ;j; ほかのコード区別しやすいし、ストリングよりは効率的ですし、そして、下記で説明するように
-;j; ファンクションのポジション(ブラケットのすぐ後)にでも使えますです。
+;j; 関数の位置(括弧のすぐ後)でも使えます。
 
 (def a-map {:foo "bar" :baz "woz"})
 
 ;; We can get the number of key-value pairs in constant time.
 
-;j; キーバルユーペアを一定時間で調べられます。
+;j; キー・バリューのペアを一定時間で調べられます。
 
 (count a-map)
 
 ;; We can access a particular value for a key with `get`.
 
-;j; そして、気になるキーのバリューを`get`でアクセスできる。
+;j; そして、気になるキーの値に`get`でアクセスできます。
 
 (get a-map :foo)
 
 ;; and return an alternative value when the key is not present
 
-;j; そして、存在してないキーの代わりになるバリューも返せます。
+;j; そして、存在してないキーについて、代わりになる値も返せます。
 
 (get a-map :bar :not-found)
 
 ;; We can add a new key-value pair with `assoc`.
 
-;j; 新しいキーバリューペアを`assoc`で足せます。
+;j; 新しいキー・バリューペアを`assoc`で足せます。
 
 (def another-map (assoc a-map :noz "goz"))
 
 ;; Again a-map is unchanged! Same magic as before for vectors
 
-;j; またa-mapは変わってない！ベクトルで見た、同じマジックです。
+;j; またa-mapは変わってない！ベクトルで見たのと同じマジックです。
 
 a-map
 
@@ -470,32 +474,32 @@ another-map
 
 ;; We can remove a key-value pair with `dissoc`.
 
-;j; `dissoc`でキーバリューペアを削除できます。
+;j; `dissoc`でキー・バリューペアを削除できます。
 
 (dissoc a-map :foo)
 
 ;; Again a-map is unchanged!
 
-;j; またまた、a-mapが変わってないです。
+;j; またまた、a-mapは変わっていません。
 
 a-map
 
 ;; Like vectors, maps can act like functions.
 
-;j; ベクトルのと同じように、マップがファンクション野代わりに使えます。
+;j; ベクトルと同じように、マップが関数代わりに使えます。
 
 (a-map :foo)
 
 ;; However ClojureScript keywords themselves can act like functions and the
 ;; following is more idiomatic.
 
-;j; ただ、ClojureScriptでは、キーワードもファンクション野用に使えます。こっちの方が慣用的です。
+;j; ただ、ClojureScriptでは、キーワードも関数のように使えます。こっちの方が慣用的です。
 
 (:foo a-map)
 
 ;; We can check if a map contains a key, with `contains?`.
 
-;j; マップであるキーが存在しているかどうかを、`contains?`で確認できます。
+;j; マップに、あるキーが存在しているかどうかを、`contains?`で確認できます。
 
 (contains? a-map :foo)
 
@@ -513,7 +517,7 @@ a-map
 
 ;; We can put a lot of things in a map, even other maps
 
-;j; マップには、いろんな種類のバリューをインサートできる。マップでも。
+;j; マップには、いろんな種類のバリューを挿入できます。マップでも。
 
 (def a-nested-map {:customer-id 1e6
                    :preferences {:nickname "Bob"
@@ -577,14 +581,14 @@ a-map
 ;; fear of namespace clashes without the tedium of manual namespacing them
 ;; in your source.
 
-;j; これは、何の訳にたつ？退屈なネームスパースをマニュアル付け足す作業を避けて、ネームスペースの中のデータを
-;j; 絶対にかぶらない用にデータをコレックションに付け足せる事ができます。
+;j; これは、何の訳にたつ？退屈なネームスペースを手作業で付け足す作業を避けて、ネームスペースの中のデータを
+;j; 絶対に名前衝突しないようにコレクションに追加する事ができます。
 
 (identity {:user/foo ::foo})
 
 ;; Namespaced keywords are essential to Light Table's modularity.
 
-;j; ネームスペース化されたケーワードが、Light Tableのモジュール化には、大切な仕様です。
+;j; ネームスペース化されたキーワードが、Light Tableのモジュール化には、大切な仕様です。
 
 
 ;; Sets
@@ -595,19 +599,19 @@ a-map
 
 ;; ClojureScript also supports sets.
 
-;; ClojureScriptはセットも対応しています。
+;; ClojureScriptはセット(集合)も対応しています。
 
 (def a-set #{:cat :dog :bird})
 
 ;; `:cat` is already in `a-set`, so it will be unchanged.
 
-;j; `:cat`がすでに`a-set`に含まれているので代わりがないです。
+;j; `:cat`がすでに`a-set`に含まれているので変わらないです。
 
 (conj a-set :cat)
 
 ;; But `:zebra` isn't.
 
-;j; しかし、`:zebra`はそうでもない。
+;j; しかし、`:zebra`はそうではない。
 
 (conj a-set :zebra)
 
@@ -615,7 +619,7 @@ a-map
 ;; an item to a collection. This is some of the uniformity we alluded to
 ;; earlier.
 
-;j; 気づきましたか？`conj`が「ポリモーフィック」な、コレクションに何かを足すために使うファンクションです。
+;j; 気づきましたか？`conj`が「ポリモーフィック」な、コレクションに何かを足すために使う関数です。
 ;j; これが前少し言及した均一性です。
 
 ;; `contains?` works on sets just like it does on maps.
@@ -627,7 +631,7 @@ a-map
 ;; Like vectors and maps, sets can also act as functions. If the argument
 ;; exists in the set it will be returned, otherwise the set will return nil.
 
-;j; また、ベクトリとマップと同じく、セットがファンクションの用には使えます。引数がセットにあれば、
+;j; また、ベクトルとマップと同じく、セットを関数のように使えます。引数が集合にあれば、
 ;j; そのままかえってきます。そうではないなら、`nil`が戻ります。
 
 (#{:cat :dog :bird} :cat)
@@ -658,9 +662,9 @@ a-map
 ;; are the 'go-to' data structures for most applications. Still, lists are sometimes
 ;; useful—especially when dealing with code (i.e. code is data).
 
-;j; リストはClojureScriptでの、もう少し珍しいデータ構造です。ClojureScriptがLispである事によって、
-;j; これがちょっとびっくりな事かもしれないですが、マップ、ベクトルとセットが手をよくつけるデータ構造です。
-;j; しかし、リストが便利なときもあります。特に、コードを対応している時に(コードをデータとして)使います。
+;j; リストはClojureScriptでの、もう少し珍しいデータ構造です。ClojureScriptがLispである事を考えると、
+;j; これはちょっとびっくりな事かもしれないですが、マップ、ベクトルとセットが手をよくつけるデータ構造です。
+;j; しかし、リストが便利なときもあります。特に、Clojureのコードはリストなので、コードをいじる時に便利です。
 
 (def a-list '(:foo :bar :baz))
 
@@ -668,7 +672,7 @@ a-map
 ;; add the new item in the most efficient way on the basis of the
 ;; collection type.
 
-;j; ポリモーフィックファンクション`conj`がリストにも対応しています。そして、コレクションおタイプによって、
+;j; ポリモーフィックファンクション`conj`はリストにも対応しています。そして、コレクションのタイプによって、
 ;j; 一番効率的な足し方をしてくれます。賢いですね！
 
 (conj a-list :front)
@@ -709,7 +713,7 @@ a-list
 ;; `identical?` checks whether two things are represented by the same
 ;; thing in memory.
 
-;j; `identical?`が、二つの物がメモリー上で同じ表現しているかどうかを確認します。
+;j; `identical?`は、二つの物がメモリー上で同じ表現しているかどうかを確認します。
 
 ;; Equality
 ;; ============================================================================
@@ -720,20 +724,20 @@ a-list
 ;; ClojureScript has a much simpler notion of equality than what is present
 ;; in JavaScript. In ClojureScript equality is always deep equality.
 
-;j; ClojureScriptでは、なにが平等しているという概念がJavaScriptより単純です。
+;j; ClojureScriptでは、等しさの概念がJavaScriptより単純です。
 ;j; ClojureScriptでは、深い平等が標準です。
 
 (= {:foo "bar" :baz "woz"} {:foo "bar" :baz "woz"})
 
 ;; Maps are not ordered.
 
-;j; マップには、順序付けられてない。
+;j; マップは、順序付けられていません。
 
 (= {:foo "bar" :baz "woz"} {:baz "woz" :foo "bar"})
 
 ;; For sequential collections, equality just works.
 
-;j; 逐次的なコレックションにでも平等が普通に動きます。
+;j; 順序付けされたコレクションには`=`を統一的に使えます。
 
 (= [1 2 3] '(1 2 3))
 
@@ -761,8 +765,8 @@ a-list
 ;j; コントロール
 ;j; ============================================================================
 
-;j; 使えるプログラムを作るには、コントロールフローを表現しなければならない。
-;j; ClojureScriptがコントロール構造はありますが、truthyとfalsyのバリューがJavaScript
+;j; 使えるプログラムを作るには、コントロールフローを表現しなければなりません。
+;j; ClojureScriptにコントロール構造はありますが、truthyとfalsyな値がJavaScript
 ;j; と違いがありますので、見直しましょう。
 
 
@@ -779,7 +783,7 @@ a-list
 
 ;; Nor is the empty string.
 
-;j; 空のストリングでも、
+;j; 空のストリングも、
 
 (if ""
   "An empty string is not false-y"
@@ -787,7 +791,7 @@ a-list
 
 ;; the empty vector
 
-;j; 空のベクトルでも、
+;j; 空のベクトルも、
 
 (if []
   "An empty vector is not false-y"
@@ -795,7 +799,7 @@ a-list
 
 ;; the empty list
 
-;j; 空のリストでも、
+;j; 空のリストも、
 
 (if ()
   "An empty list is not false-y"
@@ -803,7 +807,7 @@ a-list
 
 ;; the empty map
 
-;j; 空のマップでも、
+;j; 空のマップも、
 
 (if {}
   "An empty map is not false-y"
@@ -811,7 +815,7 @@ a-list
 
 ;; the empty set
 
-;j; 空のセットでも、
+;j; 空のセットも、
 
 (if #{}
   "An empty set is not false-y"
@@ -819,7 +823,7 @@ a-list
 
 ;; and even the empty regexp
 
-;j; 空のレギュラーエクスプレションでもfalse-yではない！
+;j; 空のレギュラーエクスプレションもfalse-yではない！
 
 (if #""
   "An empty regexp is not false-y"
@@ -828,8 +832,8 @@ a-list
 ;; The only false-y values in ClojureScript are `nil` and `false`. `undefined`
 ;; is not really a valid ClojureScript value and is generally coerced to `nil`.
 
-;j; ClojureScriptではfalse-yのバリューが、`nil` と `false`の二つだけです。
-;j; `undefined`がClojureScriptでは有効なではないので、普段は`nil`に強制されています。
+;j; ClojureScriptではfalse-yなバリューが、`nil` と `false`の二つだけです。
+;j; `undefined`がClojureScriptでは有効な値ではないので、普段は`nil`に強制されています。
 
 
 ;; cond
@@ -838,7 +842,7 @@ a-list
 ;; Nesting `if` tends to be noisy and hard to read so ClojureScript
 ;; provides a `cond` macro to deal with this.
 
-;j; たくさんな`if`が重ねてくるととてもうるさくなりますので、Clojurescriptが
+;j; たくさんな`if`がネストされてくるととてもうるさくなりますので、Clojurescriptは
 ;j; このために`cond`のマクロを提供しています。
 
 (cond
@@ -868,14 +872,14 @@ a-list
 
 ;; While you might write this in JavaScript:
 
-;j; この風に書くJavaScriptを:
+;j; このように書くJavaScriptを:
 
 ;; var ret = [];
 ;; for(var i = 0; i < 10; i++) ret.push(i)
 
 ;; In ClojureScript you would write `loop`/`recur` like so:
 
-;j; ClojureScriptではこの風に`loop`/`recur`でかきます。
+;j; ClojureScriptではこの風に`loop`/`recur`で書きます。
 
 (loop [i 0 ret []]
   (if (< i 10)
@@ -894,19 +898,19 @@ a-list
 ;; Moar functions
 ;; ============================================================================
 
-;j; functionsをもっと！
+;j; 関数をもっと！
 ;j; ============================================================================
 
 ;; Functions are the essence of any significant ClojureScript program, so
 ;; we will dive into features that are unique to ClojureScript functions that
 ;; might be unfamiliar.
 
-;j; ClojureScriptのプログラムの本質はファンクションであるので、ClojureScriptのファンクションで
-;j; もしかしての見知らぬ部分をちょっと深く探りましょう。
+;j; ClojureScriptのプログラムの本質は関数であるので、ClojureScriptの関数の
+;j; 見知らぬ部分をちょっと深く探りましょう。
 
 ;; Here is a simple function that takes two arguments and adds them.
 
-;j; 下記のファンクションが、二つの引数うを受け取って、足します。
+;j; 下記の関数は、二つの引数を受け取って、足します。
 
 (defn foo1 [a b]
   (+ a b))
@@ -915,7 +919,7 @@ a-list
 
 ;; Functions can have multiple arities.
 
-;j; ファンクションは複数のアリティを持つ事で着ます。
+;j; 関数は複数のアリティを持つ事ができます。
 
 (defn foo2
   ([a b] (+ a b))
@@ -926,7 +930,7 @@ a-list
 
 ;; Multiple arities can be used to supply default values.
 
-;j; 複数のアリティを利用する事で、デフォルトのバリューを給与できます。
+;j; 複数のアリティを利用する事で、デフォルトの値を与えることができます。
 
 (defn defaults
   ([x] (defaults x :default))
@@ -937,7 +941,7 @@ a-list
 
 ;; Functions support rest arguments.
 
-;j; 残りの複数を受け取る「レスト複数」も、作れます。
+;j; 残りの引数を受け取る可変長引数も、作れます。
 
 (defn foo3 [a b & d]
   [a b d])
@@ -947,7 +951,7 @@ a-list
 
 ;; You can apply functions.
 
-;j; ファンクションをapplyで付ける事ができます。
+;j; 関数をapplyでシーケンスに適用すると、シーケンスの中身を引数にして関数を呼び出せます。((訳者追記))
 
 (apply + [1 2 3 4 5])
 
@@ -963,21 +967,21 @@ a-list
 ;; extension, but instead of limiting dispatch to type, dispatch is controlled
 ;; by whatever value the dispatch fn originally supplied to `defmulti` returns.
 
-;j; よくポリモーフィズムが必要となって、そしてパーフォーマンスが大事ではない時、
-;j; マルチメソッドを利用する事が十分です。マルチメソッドは、自由に拡張できるファンクション、
-;j; しかし、タイプでディスパッチする事に限っているではなくて、ディスパッチが
-;j; `defmulti`に最初に渡されたファンクションの返すバリューによってコントロールされています。
+;j; ポリモーフィズムが必要となって、そしてパーフォーマンスが大事ではない時は、
+;j; マルチメソッドで十分です。マルチメソッドは、自由に拡張できる関数です。
+;j; しかし、型でディスパッチする事に限っているではなくて、ディスパッチが
+;j; `defmulti`に最初に渡されたファンクションの返す値によってコントロールされています。
 
 ;; Here is the simplest multimethod you can write. It simply dispatches on
 ;; the value received.
 
-;j; 例えば、下記が最も単純なマルチメソッドです。受け取るバリューだけでディスパッチするだけです。
+;j; 例えば、下記が最も単純なマルチメソッドです。受け取る値だけでディスパッチします。
 
 (defmulti simple-multi identity)
 
 ;; Now we can define methods for particular values.
 
-;j; そしたら、特定したバリューのメソッドを定義できます。
+;j; そしたら、特定の値に対するメソッドを定義できます。
 
 (defmethod simple-multi 1
   [value] "Dispatched on 1")
@@ -991,7 +995,7 @@ a-list
 
 ;; However we haven't defined a case for "bar"
 
-;j; まだ、"bar"の場合を定義してないのに：
+;j; まだ、"bar"の場合を定義していません。
 
 ;; (Highlight  the `simple-multi` form below)
 
@@ -1004,8 +1008,7 @@ a-list
 ;; Here is a function that takes a list. It dispatches on the first element
 ;; of the list!
 
-;j; そして、下記はリストを受け取って、リストの最初のエレメントでディスパッチする
-;j; ファンクションです。
+;j; そして、下記はリストを受け取って、リストの最初の要素でディスパッチする関数です。
 
 (defmulti parse (fn [[f & r :as form]] f))
 
@@ -1029,7 +1032,7 @@ a-list
 ;; has lexical scoping.
 ;;
 ;j; ClojureScriptはJavaScriptと違って、変数の巻き上げはありません。
-;j; ClojureScriptのスコープは、静的スコープです。
+;j; ClojureScriptのスコープは、字句的スコープです。
 
 (def some-x 1)
 
@@ -1048,8 +1051,8 @@ some-x
 ;; may be already familiar with them in JavaScript, even if it's a
 ;; variable scoped language.
 
-;j; この名前を与えた言語は「クロージャ」がないと思いますか？もちろん、あり得ないです。
-;j; バリアブルスコープの言語であるJavaScriptからでも、見た事あるでしょうか。
+;j; この名前の言語にクロージャがないと思いますか？もちろん、あり得ないです。
+;j; バリアブルスコープの言語であるJavaScriptでも、見た事があるでしょう。
 
 
 (let [a 1e3]
@@ -1065,9 +1068,9 @@ some-x
 ;; in the outer scope. This is because all `def` expressions are always
 ;; top level. See the footnote at the end of this section.
 
-;j; 上記で、`foo`と`bar`と言うファンクションを`let`形式の中で定義しました。どちらも、
-;j; `a`の存在を意識しています。(とはいえ、`a`を含んでいる)。`let`の中で定義されていても、
-;j;  `foo`と`bar`が外のスコープからでもアクセスできます。詳しくは、下記の脚注を確認してください。
+;j; 上記で、`foo`と`bar`と言う関数を`let`形式の中で定義しました。どちらも、
+;j; `a`の存在を意識しています。`let`の中で定義されていても、
+;j;  `foo`と`bar`は外のスコープからでもアクセスできます。詳しくは、下記の脚注を確認してください。
 
 
 (foo)
@@ -1092,8 +1095,8 @@ some-x
 ;; But in ClojureScript, functions' parameters and let bindings' locals
 ;; are not mutable! That goes for loop locals, too!
 
-;j; ClojureScriptでは、ファンションの引数と`let`のローカルが、ミュータブルではない！
-;j; ループのローカルもそうです。
+;j; ClojureScriptでは、関数の引数と`let`のローカル束縛が、ミュータブルではない！
+;j; ループのローカル束縛もそうです。
 
 (let [fns (loop [i 0 ret []]
             (if (< i 10)
@@ -1104,15 +1107,15 @@ some-x
 ;; In JavaScript you would see a list of ten 9s. In ClojureScript we
 ;; see the expected numbers from 0 to 9.
 
-;j; 上記をJavaScriptでやって見たら、「９」を１０回入ったリストになってしまう。
-;j; ClojureScriptでは、「０」から「９」までのリストを予期します。
+;j; 上記をJavaScriptでやって見たら、「９」が１０回入ったリストになってしまう。
+;j; ClojureScriptでは、予想通り「０」から「９」までのリストを返します。
 
 ;; FOOTNOTE:
 ;;
 ;; `def` expressions (including `defn`) are always top level. People familiar
 ;; with Scheme or other Lisps often mistakenly write the following in Clojure:
 
-;j; `def`式(`defn`も含まれて)がいつも、トップレベルです。SchemeやListから来る人は、よく
+;j; `def`式(`defn`も含む)はいつも、トップレベルです。Schemeや他のLispから来る人は、よく
 ;j; 下記のようなClojure(Script)を書いてしまいます:
 
 (defn not-scheme []
@@ -1138,23 +1141,23 @@ some-x
 ;; data manipulation. Again, we will see that ClojureScript's uniformity
 ;; pays off.
 
-;j; ClojureScriptのプログラムがちょっとでも大きくなると、データのマニッピュレーションが
-;j; 多いでしょう。ClojureScriptの均一性のかいがまたここにある。
+;j; ClojureScriptのプログラムがちょっとでも大きくなると、データのマニピュレーションが
+;j; 多くなるでしょう。ClojureScriptの均一性はここでも力を発揮します。
 
 ;; In ClojureScript anywhere bindings are allowed (like `let` or function
 ;; parameters), destructuring is allowed. This is similar to the destructuring
 ;; proposed for ES6, but the system provided in ClojureScript benefits from
 ;; all the collections supporting uniform access.
 
-;j; ClojureScriptのバインティングできる所すべて、分配束縛ができます。(例えば、`let` やファンクションの引数)
-;j; これは、ES6の分配束縛ににています。ただ、ClojureScriptでは、すべてのコレクションが均一性にアクセスできる事によって
-;j; このパターンをもっと便利に使える。
+;j; ClojureScriptでは、束縛を作れる所ではすべて、分配束縛ができます。(例えば、`let` や、関数の引数)
+;j; これは、ES6の分配束縛ににています。ただ、ClojureScriptでは、すべてのコレクションが均一的にアクセスできる事によって
+;j; このパターンをもっと便利に使えます。
 
 
 ;; Sequence destructuring
 ;; ----------------------------------------------------------------------------
 
-;j; シークエンスの分配束縛
+;j; シーケンスの分配束縛
 ;j; ----------------------------------------------------------------------------
 
 ;; Destructuring sequential types is particularly useful.
@@ -1174,7 +1177,7 @@ some-x
 ;; item in the corresponding position. it has no other special meaning.
 ;; Here we're only interested at the third local variable named `b`.
 
-;j; _は「このポジションにあるアイテムは興味がないです」という意味の従来です。
+;j; _は「この位置にあるアイテムは興味がないです」という意味の従来です。
 ;j; それ以外、特別な意味はないです。例えば、下記では、bという引数にしか興味がないです。
 
 (let [[_ _ b] [255 255 150]]
@@ -1183,7 +1186,7 @@ some-x
 ;; destructuring function arguments works just as well. Here we are
 ;; only intersted at the second argument `g`.
 
-;j; ファンションの引数にでも、分配束縛我できます。下記は、gという引数が、分配束縛されます。
+;j; 関数の仮引数でも、分配束縛が利用できます。下記は、gという引数が、分配束縛されます。
 
 (defn green [[_ g _]] g)
 
@@ -1200,8 +1203,8 @@ some-x
 ;; `:foo` key and bind it to a local `f`, and the value for `:baz` key
 ;; and bind it to a local `b`.
 
-;j; マップの分配束縛も、便利です。下記は、`:foo`キーのバリューをローカル引数 「f」にバインドして、
-;j; `baz`キーのバリューをローカル`b`二バインドしています。
+;j; マップの分配束縛も便利です。下記は、`:foo`キーの値をローカルなシンボル`f`に束縛して、
+;j; `baz`キーのバリューをローカルなシンボル`b`に束縛しています。
 
 (let [{f :foo b :baz} {:foo "bar" :baz "woz"}]
   [f b])
@@ -1237,7 +1240,7 @@ some-x
 ;; Sequences
 ;; ============================================================================
 
-;; シークエンス
+;; シーケンス
 ;; ============================================================================
 
 ;; We said that ClojureScript data structures are to be preferred as they
@@ -1317,7 +1320,7 @@ some-x
 
 ;; Most ClojureScript collections can be coerced into sequences.
 
-;; ClojureScriptのほとんどのコレクションがシークエンス化出来ます。
+;; ClojureScriptのほとんどのコレクションがシーケンス化出来ます。
 
 (seq {:foo "bar" :baz "woz"})
 (seq #{:cat :dog :bird})
@@ -1355,8 +1358,8 @@ some-x
 ;; is a useful way to annotate data without affecting equality. The
 ;; ClojureScript compiler uses this language feature to great effect.
 
-;j; ClojureScriptの一般的なコレクションがすべてメタデータを定義しています。メタデータが
-;j; 平等に影響なく、注釈を付る事が出来ます。ClojureScriptのコンパイラーがメタデータを用いて、
+;j; ClojureScriptの一般的なコレクションがすべてメタデータを定義しています。メタデータを使うと、
+;j; 等値性に影響なく、注釈を付る事が出来ます。ClojureScriptのコンパイラーがメタデータを用いて、
 ;j; 優れた結果を得ます。
 
 ;; You can add metadata to a ClojureScript collection with `with-meta`. The
@@ -1371,7 +1374,7 @@ some-x
 
 ;; Metadata has no effect on equality.
 
-;j; メタデータは平等に影響は無いです。
+;j; メタデータは統治性に影響を及ぼしません。
 
 (= plain-data decorated-data)
 
@@ -1421,7 +1424,7 @@ some-x
 ;; JavaScript unfortunately allows you to throw anything. You can handle
 ;; this in ClojureScript with the following.
 
-;j; 残念ながら、JavaScriptはどのバリューでも投げる事ができます。ClojureScriptでは、このように対応できます。
+;j; 残念ながら、JavaScriptはどの値でも投げる事ができます。ClojureScriptでは、このように対応できます。
 
 (try
   (throw (js/Error. "Oops"))
@@ -1458,14 +1461,14 @@ some-x
 ;; any traditional mutable data structures, however it does support identities
 ;; that can evolve over time via `atom`.
 
-;j; 少しなミュータビリティは大きな成果を生み出す。ClojureScriptは、普段ミュータブルなデータ構造を提供していないです。
-;j; しかし、`atom`では、時間とともに変化する変数を提供しています。
+;j; ほんの少しのミュータビリティは大きな成果を生み出します。ClojureScriptは、伝統的なミュータブルなデータ構造を提供していません。
+;j; しかし、`atom`は、時間とともに変化する変数を提供します。
 
 (def x (atom 1))
 
 ;; You can dereference the value of an atom with `@`.
 
-;j; アトムのバリューは、`@`で参照できます。
+;j; アトムが現在指している値は、`@`で参照できます。
 
 @x
 
@@ -1479,8 +1482,8 @@ some-x
 ;; the new value. It's idiomatic to add the bang char `!` at the end of function
 ;; names mutating objects.
 
-;j; アトムのバリューを変更したいときは、`reset`を利用できます。変数をミューテーションさせる
-;j; ファンクションの名前に「!」を付けるのが慣用的です。
+;j; アトムの指す値を変更したいときは、`reset`を利用できます。変数をミューテーションさせる
+;j; 関数の名前に「!」を付けるのが慣用的です。
 
 (reset! x 2)
 
@@ -1501,9 +1504,9 @@ x
 ;; which will be instantiated with the current value of the atom. `swap!` returns
 ;; the new value of the atom.
 
-;; アトムのバリューを現在のバリューによって、変更したい場合`swap!`を利用できます。一番単純な形ですと、
-;; `swap`は一つ目の変数で「変更したいアトム」、そして、二つ目の変数で「アトムをアップデートするファンクション」を
-;; 受け取とります。`swap!` は、アトムの新しいバリューを返します。
+;; アトムの値を現在の値によって、変更したい場合`swap!`を利用できます。一番単純な形ですと、
+;; `swap`は一つ目の変数で「変更したいアトム」、そして、二つ目の変数で「アトムをアップデートする関数」を
+;; 受け取とります。`swap!` は、アトムの新しい値を返します。
 
 (swap! x inc)
 
@@ -1515,8 +1518,8 @@ x
 ;; have to pass them as extra arguments to `swap!` after the updating function
 ;; itself.
 
-;j; もしアップデートするファンクションが新しいバリューを計算するには、他の変数が必要となるなら、
-;j; `swap!`実態にファンクションの後に渡せます。
+;j; もしアップデートする関数が新しいバリューを計算するには、他の変数が必要となるなら、
+;j; `swap!`関数の最後の引数として渡せます。
 
 (swap! x (fn [old extra-arg]
            (+ old extra-arg)) 39)
@@ -1528,7 +1531,7 @@ x
 ;; As usual when anonymous functions are simple enough, it's idiomatic to use
 ;; the condensed form.
 
-;j; もちろん、いつも通りに無名のファンクションも渡せる事が可能です。
+;j; もちろん、いつも通りに無名の関数も渡す事が可能です。
 
 (swap! x #(- %1 %2) 42)
 
@@ -1539,7 +1542,7 @@ x
 ;; Note that the updating function has to be free of side-effects because a
 ;; waiting writer could call it more than once in a spin loop.
 
-;j; アップデートするファンクションは副作用がない事を気をつけてください。writerが自分の順番
+;j; アップデートする関数は副作用がないように気をつけてください。writerが自分の順番
 ;j; 待っている間、ループで数回呼ばせる可能性があります。
 
 
@@ -1553,7 +1556,7 @@ x
 ;; Sometimes you need to mutate existing JavaScript objects. For this you
 ;; have `set!`.
 
-;; JavaScriptのobjectを変異したい特もあります。この場合、`set!`を利用します。
+;; JavaScriptのobjectを変異したい時もあります。この場合、`set!`を利用します。
 
 (def c (.createElement js/document "canvas"))
 (def ctxt (.getContext c "2d"))
@@ -1576,16 +1579,16 @@ x
 ;; library with the exception of functionality that assumes a multithreaded
 ;; environment, first class namespaces, and Java numerics.
 
-;j; ClojureScriptのスタンダードライブラリーが主に、Clojureのスタンダードライブラリーを
-;j; 反映しています。だだ、マルチスレッドの環境や、ネイムスペーソが第一級や、Javaの数字など
-;j; を期待している所がぬけています。
+;j; ClojureScriptのスタンダードライブラリーの大部分は、Clojureのスタンダードライブラリーを
+;j; 踏襲しています。だだ、マルチスレッドの環境や、第一級のネームスペースや、Javaの数字など
+;j; を期待している所はぬけています。
 
 ;; Here are some highlights and patterns that newcomers to ClojureScript might
 ;; find useful. Remember you can type Control-Shift-D at anytime to bring up
 ;; the documentation panel to see what any of these function do.
 
 ;j; 下記はClojureScriptの初心者に便利なパターンやハイライトを書いてあります。気になったら、
-;j; いつでも、「Control-Shift-D」で、ドキュメンテーションのパネルを出して、ダンクションについて
+;j; いつでも、「Control-Shift-D」で、ドキュメンテーションのパネルを出して、関数について
 ;j; 調べる事ができます。
 
 (apply str (interpose ", " ["Bob" "Mary" "George"]))
@@ -1626,18 +1629,18 @@ x
 ;; same uniformity provided by ClojureScript collections can be extended to
 ;; your own types or even types that you do not control!
 
-;j; ClojureScriptがだいたい豊富なプロトコルの上でできています。そしたら、自分のタイプでも、
-;j; コントロルしてないタイプでも、ClojureScriptのコレクションが提供する均一性を、
-;j; 持って行ける事は可能です！
+;j; ClojureScriptは豊富なプロトコルの上でできています。自分の型でも、
+;j; 自分のコントロール下にない型でも、ClojureScriptのコレクションが提供する均一性を、
+;j; 使えます！
 
 ;; A lot of the uniform power we saw early was because the ClojureScript
 ;; collections are implemented in terms of protocols. Collections can be
 ;; coerced into sequences because they implement ISeqable. You can use `get`
 ;; on vectors and maps because they implement ILookup.
 
-;j; 以前、均一性から生まれてくるパワーがコレクションがプロトコルでできているのが原因です。
-;j; コレクションがシークエンスに変換させれるのが、ISeqableを実装しているだからです。
-;j; ベクトルとマップに`get`を使えるのは、両帆がILookupを実装しているだからです。
+;j; 均一性から生まれてくるパワーの大半は、コレクションがプロトコルでできているのが原因です。
+;j; コレクションをシーケンスに変換できるのは、ISeqableを実装しているからです。
+;j; ベクトルとマップに`get`を使えるのは、両方ともILookupを実装しているからです。
 
 (get {:foo "bar"} :foo)
 (get [:cat :bird :dog] 1)
@@ -1645,8 +1648,8 @@ x
 ;; Map destructing actually desugars into `get` calls. That means if you extend
 ;; your type to ILookup it will also support map destructuring!
 
-;j; マップの分配束縛が実は、`get`のコールにデシュガーします。という事で、自分のタイプをILookupに
-;j; エクステンドするとそのタイプも分配束縛をサッポートします！
+;j; マップの分配束縛は実は、`get`の呼び出しにデシュガーします。という事で、自分の型をILookupに
+;j; エクステンドするとその型も分配束縛をサポートします！
 
 
 ;; extend-type
@@ -1659,9 +1662,9 @@ x
 ;; pitfalls that you encounter in other languages. For example imagine we have
 ;; some awesome polymorphic functionality in mind.
 
-;j; ClojureScriptのタイプのエクステンションの仕方が他の言語に比べて、
+;j; ClojureScriptの型のエクステンションの仕方は、他の言語で
 ;j; よくおこる問題を防いでいます。例えば、すばらしいポリモーフィックな機能を
-;j; 考えているだとすると..
+;j; 考えているとすると..
 
 (defprotocol MyProtocol (awesome [this]))
 
@@ -1671,7 +1674,7 @@ x
 ;; basis of the type of the value of `this`
 
 ;j; ..一番目の引数を`this`と呼ぶのが、慣用的です。これが、プロトコルがこの引数のタイプによって、
-;j; 正しいファンクションにディスパッチをしていると言う事のリマインダーになります。
+;j; 正しい関数にディスパッチをしていると言う事のリマインダーになります。
 
 ;; Now imagine we want JavaScript strings to participate. We can do this
 ;; simply.
@@ -1695,9 +1698,9 @@ x
 ;; use extend-protocol for this. `extend-protocol` simply desugars into multiple
 ;; `extend-type` forms.
 
-;j; たまに、一つのプロ所を同時に複数なタイプにエキステンドしたいときはあります。この場合、
-;j; `extend-protocol`は使えます。`extend-protocol`は、ただ単に複数な`extend-type`に
-;j; ディシュガーします。
+;j; たまに、一つのプロトコルを同時に複数の型に拡張したいときがあります。この場合、
+;j; `extend-protocol`を使います。`extend-protocol`は、ただ単に複数の`extend-type`に
+;j; デシュガーします。
 
 ;; As said while learning about `let` special form, when we're not
 ;; interested in the value of an argument it's idiomatic to use the
@@ -1725,20 +1728,20 @@ x
 ;; Sometimes it's useful to make an anonymous type which implements some
 ;; various protocols.
 
-;j; たまに、プロトコルを実装している無名なタイプを作るのが便利です。
+;j; たまに、プロトコルを実装している無名な型を作るのが便利です。
 
 ;; For example say we want a JavaScript object to support ILookup. Now we don't
 ;; want to blindly `extend-type object`, that would pollute the behavior of plain
 ;; JavaScript objects for everyone.
 
-;j; 例えば、JavascriptのオブジェクトがILookupを対応するようにしたい。`extend-type object`
-;j; は使いたくない - 全体的にJavaScriptのオブジェクトのビヘイビアに影響がある。
+;j; 例えば、JavascriptのオブジェクトがILookupを対応するようにしたい時、`extend-type object`
+;j; は使いたくない - 全体的にJavaScriptのオブジェクトの振る舞いに影響があるから。
 
 ;; Instead we can provide a helper function that takes an object and returns
 ;; something that provides this functionality.
 
-;j; 代わりには、オブジェクトを受け取って、期待している機能を提供しているものを返してもらう
-;j; ヘルパーファンクションを作れます。
+;j; 代わりに、オブジェクトを受け取って、期待している機能を提供しているものを返してもらう
+;j; ヘルパー関数を作れます。
 
 (defn ->lookup [obj]
   (reify
@@ -1754,7 +1757,7 @@ x
 
 ;; We can then selectively make JavaScript objects work with `get`.
 
-;j; そしたら、選択的に`get`を提供しているJavascriptオブジェクトを作る事ができます。
+;j; そしたら、選択的に、`get`を提供しているJavascriptオブジェクトを作る事ができます。
 
 (get (->lookup #js {"foo" "bar"}) :foo)
 
@@ -1801,7 +1804,7 @@ x
 ;; Sometimes a map will simply not suffice, in these cases you will want to
 ;; make your own custom type.
 
-;j; マップが足りない時はあります。その場合、カスタムタイプを作るのがいいです。
+;j; マップでは足りない時はまれにあります。その場合、カスタムタイプを作るのがいいです。
 
 (deftype Foo [a b])
 
@@ -1809,14 +1812,14 @@ x
 ;; deftype instance using the same constructor pattern we've already discussed.
 
 ;j; `deftype`の名前を付けるには、キャメルケースを使うのが慣用的です。
-;j; 新しい`deftype`のインスタンスを生成前と同じコンストラクターを使えます。
+;j; 新しい`deftype`のインスタンス生成には、既に見たようにコンストラクターを使えます。
 
 (Foo. 1 2)
 
 ;; You can access properties of a deftype instance using property access
 ;; syntax.
 
-;j; そして、`deftype`のプロペティーをいつも通り下記のアクセスのシンタクスを使えます。
+;j; そして、`deftype`のプロパティーにはいつも通り下記のシンタクスでアクセスできます。
 
 (.-a (Foo. 1 2))
 
@@ -1825,8 +1828,8 @@ x
 ;; The dash in `-count` has no special meaning. It's just a convention for
 ;; the core ClojureScript protocols. You need not adopt it.
 
-;j; 下記のように、プロトコルのメソッドを`deftype`にも付けり事ができます。`deftype`と`defrecord`の
-;j; 一番目の引数がそのインスタンス実体です。`-count`のハイフェンに特別な意味はないです。ClojureScript
+;j; 下記のように、プロトコルのメソッドを`deftype`にも付ける事ができます。`deftype`と`defrecord`の
+;j; 一番目の引数がそのインスタンス実体です。`-count`のハイフンに特別な意味はないです。ClojureScript
 ;j; のコアプロトコルの慣用です。付けなくても、大丈夫です。
 
 (deftype Foo [a b]
@@ -1837,7 +1840,7 @@ x
 
 ;; Sometimes it's useful to implement methods directly on the deftype.
 
-;j; `deftype`の中でもメソッドを実装する事も、たまに役に立ちます。
+;j; `deftype`の中もメソッドを実装する事も、たまに役に立ちます。
 
 (deftype Foo [a b]
   Object
@@ -1848,7 +1851,7 @@ x
 ;; deftype fields are immutable unless specified. The following will not compile.
 ;; (To prove it to yourself, highlight  the `deftype` form below.)
 
-;j; 特定しなければ、`deftype`のフィルドがイミュータブルです。下記は、コンパイルエラーになります。
+;j; 特定しなければ、`deftype`のフィールドはイミュータブルです。下記は、コンパイルエラーになります。
 ;j; (確認するなら、下記の`deftype`を選択して、Cmd-Enterで実行してみてください。)
 
 (comment
@@ -1883,7 +1886,7 @@ x
 
 ;; Like `deftype`, it's idiomatic to use CamelCase to name a `defrecord`.
 
-;j; `deftype`と同じく、`defrecord`を作る時、キャメルケースを使います。
+;j; `deftype`と同じく、`defrecord`を作る時は、キャメルケースを使います。
 
 (defrecord Person [first last])
 
@@ -1895,7 +1898,7 @@ x
 
 ;; Or you can use the provided constructors.
 
-;j; それか、ついてくるコンストラクターを使っても作れます。
+;j; それか、自動的にに作られるコンストラクターを使っても作れます。
 
 (->Person "Bob" "Smith")
 
@@ -1905,8 +1908,8 @@ x
 ;; which returns the created instance of a defrecord/deftype. It's idiomatic to use
 ;; dash-case for factories names.
 
-;j; 作り上げた`defrecord`のインスタンスを返すファクトリーファンクションを定義するのが、慣用的、そして、推奨されています。
-;j; ファクトリーファンクションの名前は、ハイフェンを使った名前が正しいです。
+;j; 作り上げた`defrecord`のインスタンスを返すファクトリー関数を定義するのが、慣用的、そして、推奨されています。
+;j; ファクトリー関数の名前は、ハイフンを使った名前が正しいです。
 
 (defn person [first last]
   (->Person first last))
@@ -1963,12 +1966,12 @@ x
 
 ;; If you need a more sophisticated form of polymorphism consider multimethods.
 
-;j; もっと洗練されたポリモーフィズムが必要であれば、マルチーメソッドを使う事を検討してください。
+;j; もっと洗練されたポリモーフィズムが必要であれば、マルチメソッドを使う事を検討してください。
 
 ;; If you mix types/records with protocols you are modeling your problem with an
 ;; object oriented approach, which is sometimes useful.
 
-;j; プロトコルとレコードをタイプと組み合わせている場合、オブジェクトオリエンテッドな方法を優先してる
+;j; プロトコルとレコードを型と組み合わせている場合、オブジェクト指向な方法を優先してる
 ;j; 事になります。このパターンがフィットする時もあります。
 
 ;; Note ClojureScript does not offer a direct form of inheritance. Instead,
@@ -1986,8 +1989,8 @@ x
 ;; instances of the new Contact record type by internally calling the factory
 ;; function for the Person record type.
 
-;j; 必要されてなくても、新しい`contact`のレコードを作り出す、中で`person`の
-;j; ファクトリーファンクションを利用しているファクトリーファンクションを作りましょう。
+;j; 必須ではなくても、ファクトリー関数を定義するのを忘れないでください。
+;j; 新しい`contact`のレコードを作り出す、中で`person`のファクトリーファンクションを利用しているファクトリーファンクションを作りましょう。
 
 (defn contact [first last email]
   (->Contact (person first last) email))
@@ -2007,7 +2010,7 @@ x
 
 ;; To change the value of a nested key you use 'assoc-in', like with maps.
 
-;j; 含まれているキーのバリューを変えるのを、マップと同じく、`assoc-in`を使えます。
+;j; 含まれているキーのバリューを変えるには、マップと同じく、`assoc-in`を使えます。
 
 (assoc-in (contact "Bob" "Smith" "bob.smith@acme.com")
           [:person :first] "Robert")
@@ -2015,7 +2018,7 @@ x
 ;; If you need to use the previous value of a nested field for calculating the
 ;; new one, you can use 'update-in', like with maps.
 
-;j; 新しいバリューが現在のバリューによって計算したい場合、`update-in`を使えます。
+;j; 新しい値を現在の値によって計算したい場合、`update-in`を使えます。
 
 (-> (update-in (contact "Bob" "Smith" "bob.smith@acme.com")
            [:person :first] #(string/replace %1 #"Bob" %2) "Robert") :person :first)
@@ -2023,7 +2026,7 @@ x
 ;; As said, the main difference with the majority of OO languages is that your
 ;; instances of deftypes/defrecords are immutable.
 
-;j; 他のオブジェクト指向言語とちがって、`deftype`と`defrecord`がイミュータブル。
+;j; 他のオブジェクト指向言語とちがって、`deftype`と`defrecord`がイミュータブルです。
 
 
 (def bob (contact "Bob" "Smith" "bob.smith@acme.com"))
@@ -2049,14 +2052,14 @@ x
 
 ;; You can access properties with the `.-` property access syntax.
 
-;j; プロペティーは`.-`でアクセス出来ます。
+;j; プロパティーは`.-`でアクセス出来ます。
 
 (.-getSeconds a-date)
 
 ;; Method Calls
 ;; ----------------------------------------------------------------------------
 
-;j; メソッドのコール
+;j; メソッドの呼び出し
 ;j; ----------------------------------------------------------------------------
 
 ;; Methods can be invoked with the `.` syntax.
@@ -2073,7 +2076,7 @@ x
 
 ;; For example, you can write a `console.log` call like so.
 
-;; 例えば、`console.log`野コールは下記のようにかけます。
+;; 例えば、`console.log`の呼び出しは下記のようにかけます。
 
 (. js/console (log "Interop!"))
 
