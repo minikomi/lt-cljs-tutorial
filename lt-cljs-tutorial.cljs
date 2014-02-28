@@ -40,7 +40,7 @@
 ;; alias. We could write the following:
 
 ;j; :requireを利用して、他のnamespaceからの機能を現在のnamespaceにインポートすることができます。
-;j; 上記のように`clojure.string`を:requireして、stringと言うエイリアスを付ける事が出来ます。
+;j; 上記のように`clojure.string`を:requireして、`string`と言うエイリアスを付ける事が出来ます。
 
 (clojure.string/blank? "")
 
@@ -309,7 +309,7 @@ js/requestAnimationFrame
 ;; If you're curious about other JavaScript interop jump to the bottom of this
 ;; tutorial.
 
-;j; ほかのJavaScriptとのインターオペラビリtィに興味があるなら、このドキュメントの下部に飛んでください。
+;j; ほかのJavaScriptとのインターオペラビリティに興味があるなら、このドキュメントの下部に飛んでください。
 
 
 ;; ClojureScript data types
@@ -2083,23 +2083,38 @@ x
 ;; Primitive Array Operations
 ;; ----------------------------------------------------------------------------
 
+;j; 原始的な配列関数
+;j; ----------------------------------------------------------------------------
+
 ;; When writing performance sensitive code, sometimes dealing with mutable
 ;; arrays is unavoidable. ClojureScript provides a variety of functions for
 ;; creating and manipulating JavaScript arrays.
 
+;j; パフォーマンスが気になるコードを書いていると、ミュータブルな配列を使うのを避けられない
+;j; 場合もあるでしょう。そのてめに、ClojureScriptにJavaScriptの配列の作成や操作のための関数
+;j; あります。
+
 ;; You can make an array of specific size with `make-array`
+
+;j; 決まったサイズの配列を、`make-array`で作れます。
 
 (make-array 32)
 
 ;; You can access an element of an array with `aget`.
 
+;j; そして、配列の要素を`aget`でアクセス出来ます。
+
 (aget #js ["one" "two" "three"] 1)
 
 ;; You can access nested arrays with `aget`.
 
+;j; ネストした要素も`aget`でアクセスできます。
+
 (aget #js [#js ["one" "two" "three"]] 0 1)
 
 ;; You can set the contents of an array with aset.
+
+;j; 配列の要素のバリューを`aset`で設定出来ます。
 
 (def yucky-stuff #js [1 2 3])
 
