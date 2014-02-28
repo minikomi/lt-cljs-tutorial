@@ -19,3 +19,11 @@ as well.
 [1]: https://github.com/clojure/tools.nrepl
 [2]: https://github.com/magomimmo/modern-cljs/tree/master/cljs-tutorial
 
+
+------------------------
+
+## Japanese translation
+
+Original repo is [swannodette/lt-cljs-tutorial](https://github.com/swannodette/lt-cljs-tutorial)
+
+Extra language help by [ympbyc](https://github.com/ympbyc)
